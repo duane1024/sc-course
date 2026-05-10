@@ -1,7 +1,7 @@
-title: From Cray-1 to Frontier
-author: A working engineer's history of supercomputer architecture
+title: "From Cray-1 to Frontier: A working engineer's history of supercomputer architecture"
+author: Duane Moore
 logo: ""
-copyright: "2026"
+copyright: "2026 Duane Moore"
 only_build_toc_files: true
 
 execute:

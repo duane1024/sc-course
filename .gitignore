@@ -1,0 +1,34 @@
+# Jupyter Book build output
+_build/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+.uv/
+uv.lock
+
+# Lab build artifacts
+*.o
+*.s
+labs/03-vectorize/loops.o
+labs/03-vectorize/loops.s
+labs/04-openmp/stencil
+labs/09-mpi-stencil/heat1d
+labs/13-cuda-saxpy/saxpy
+code/era1-scalar/saxpy_scalar
+code/era2-vector/saxpy_vec
+code/era2-vector/saxpy_f
+code/era3-openmp/saxpy_omp
+code/era4-mpi/saxpy_mpi
+code/era5-cuda/saxpy
+code/era6-stdpar/saxpy_stdpar
+code/era6-stdpar/saxpy_fc
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

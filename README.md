@@ -2,6 +2,8 @@
 
 **A working engineer's history of supercomputer architecture, in 15 weeks plus a capstone.**
 
+By **Duane Moore**.
+
 This is a free, self-paced course for software engineers who want to understand:
 
 - What the word "supercomputer" actually meant in 1976, and what it means now.
