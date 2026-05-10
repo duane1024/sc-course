@@ -42,7 +42,7 @@ NEC's bet was clear: rather than build many CPUs sharing a memory (the X-MP/Y-MP
 
 ## SX-3, SX-4, SX-5: the dynasty
 
-- **SX-3 (1990)**: 4 CPUs sharing memory, 16-pipe per CPU, 5.5 GFLOPS aggregate. The first Japanese machine to hit Top500 #1 (replacing X-MP/4).
+- **SX-3 (1990)**: 4 CPUs sharing memory, 16-pipe per CPU, 5.5 GFLOPS aggregate. It predated the Top500 list and was a major single-node vector milestone, but it was not a Top500 #1 system.
 - **SX-4 (1995)**: 32 CPUs, 8 GFLOPS per CPU, 256 GFLOPS peak. Competitive with everything from Cray.
 - **SX-5 (1998)**: 16 CPUs per node, multiple nodes networked — the architectural template that became the Earth Simulator.
 
@@ -72,9 +72,9 @@ This was the apex of the long-vector approach. We give it a full chapter (Week 1
 - 640 nodes, each with 8 NEC SX-6-derived vector CPUs. **5,120 CPUs total**.
 - **35.86 TFLOPS** sustained on LINPACK.
 - Held Top500 #1 from June 2002 to June 2004.
-- Did so by being *more than 2× faster* than the previous #1 (IBM ASCI White).
+- Did so by being *almost 5× faster* than the previous #1 by LINPACK Rmax: 35.86 TFLOPS versus ASCI White's 7.226 TFLOPS on the June 2002 Top500 list.
 
-It was the last machine where a vector architecture decisively led the world. After 2004 the cluster-and-accelerator era took over. The Earth Simulator's success triggered the US DOE to launch the **DARPA HPCS program**, which funded the development of what eventually became the Cray XT (Jaguar, Titan) and the IBM PERCS / Blue Waters program.
+It was the last machine where a vector architecture decisively led the world. After 2004 the cluster-and-accelerator era took over. The Earth Simulator's success fed a broader US "Computenik" policy reaction. DARPA's **High Productivity Computing Systems** (HPCS) program was the most visible response program, funding Cray, IBM, Sun, and others; its direct outputs include Chapel, IBM PERCS work, and Cray's Cascade/XMT line, while later Cray XT/XE/XK systems such as Jaguar and Titan drew on overlapping vendor capacity rather than being simple one-to-one HPCS products.
 
 ## Why the Japanese vector ecosystem persisted longer than Cray's
 
@@ -88,12 +88,12 @@ The NEC SX line continued through SX-9 (2008), SX-ACE (2013), and finally **SX-A
 
 ## Lab — Long vectors vs. short vectors
 
-In `labs/05-vector-length/`, you write a stencil kernel with NumPy and benchmark it on three array sizes:
+In `labs/05-vector-length/`, you run a NumPy SAXPY-style benchmark across a sweep of vector lengths, then focus on three reference regions:
 - `N = 64` (Cray-1 sweet spot)
 - `N = 256` (NEC SX sweet spot)
 - `N = 1_000_000` (modern memory-bound)
 
-You'll see the fixed-overhead-per-call versus per-element-cost trade-off in action. Then you do the same kernel in C with explicit AVX-512 intrinsics and observe how the modern story is "many short vectors, fed by deep prefetch", not "one long vector". The architectural argument that Cray won and NEC lost shows up in the numbers.
+You'll see the fixed-overhead-per-call versus per-element-cost trade-off in action. The lab is intentionally a portable Python/NumPy proxy: the modern low-level story is "many short SIMD vectors, fed by cache and prefetch", not "one long vector", but the measured curve still shows the trade-off that made Cray and NEC choose different vector lengths.
 
 ## Discussion questions
 

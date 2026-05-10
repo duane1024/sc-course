@@ -26,11 +26,25 @@ hipcc -O3 saxpy.hip.cpp -o saxpy
 
 ## If you have Apple Silicon
 
-Use the provided `saxpy_metal.swift` (compile with `swiftc -O saxpy_metal.swift -framework Metal -o saxpy_metal`) or the `saxpy_mlx.py` (run with `python saxpy_mlx.py`, requires Apple's MLX framework).
+Use the provided Metal version:
+
+```bash
+swiftc -O saxpy_metal.swift -framework Metal -o saxpy_metal
+./saxpy_metal
+```
+
+Or use the MLX version:
+
+```bash
+python3 -m pip install mlx
+python3 saxpy_mlx.py
+```
+
+The Apple examples use `float32`, because that is the practical fast path on Apple GPUs. Compare bandwidth trends rather than bit-for-bit agreement with the CUDA `double` example.
 
 ## If you have neither
 
-Open `saxpy_colab.ipynb` in Google Colab. Choose Runtime → Change runtime type → T4 GPU. Run all cells.
+Open `saxpy_colab.ipynb` in Google Colab. Choose Runtime -> Change runtime type -> T4 GPU. Run all cells.
 
 ## Exercises
 

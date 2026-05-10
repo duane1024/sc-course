@@ -10,7 +10,7 @@ This week is about how that idea took over.
 
 In summer 1994, **Thomas Sterling** (at NASA's Center of Excellence in Space Data and Information Sciences, NASA Goddard) and **Donald Becker** (in the same group, primarily a Linux kernel developer who wrote most of the early Ethernet drivers) had a problem: their group needed compute for satellite data processing, the budget was tiny, and there was no path to a Cray.
 
-So they bought 16 Intel DX4 (a 100 MHz 486) PCs, each with 16 MB of RAM, connected them with two stock 10 Mbps Ethernet networks (one for application traffic, one for I/O), put **Linux** on them, installed **PVM**, and called it Beowulf. ~$50,000 total. ~74 MFLOPS sustained on LINPACK. *Forty times slower per CPU* than the contemporary Cray Y-MP, but at 1/2,000 the cost.
+So they bought 16 Intel DX4 (a 100 MHz 486) PCs, each with 16 MB of RAM, connected them with two stock 10 Mbps Ethernet networks (one for application traffic, one for I/O), put **Linux** on them, installed **PVM**, and called it Beowulf. ~$50,000 total. ~74 MFLOPS sustained on LINPACK. *Forty times slower per CPU* than the contemporary Cray Y-MP, but at 1/2,000 the cost. *Source: Sterling & Becker (1995), "How to Build a Beowulf," NASA Goddard Space Flight Center; Sterling et al. (1995), "BEOWULF: A parallel workstation for scientific computation," Proc. ICPP '95 — both report the same configuration, sustained LINPACK number, and price.*
 
 Three things made Beowulf interesting beyond the obvious cost win:
 
@@ -24,7 +24,7 @@ Sterling and Becker published "How to Build a Beowulf" in 1995 and presented it 
 
 The dismissive reaction was: "this is a slow toy; real supercomputers will always need custom interconnects and tightly engineered systems." That reaction was right about *peak performance*. It was wrong about *what customers wanted*. Three forces:
 
-1. **Per-FLOP cost.** A 1995 Cray T3E cost $30M for 1 TFLOPS sustained. A 1995 Beowulf cluster cost $200k for 10 GFLOPS sustained. Per-FLOP, Beowulf was 15× cheaper. By 2000, with faster Pentium III and Athlon CPUs and 100 Mbps Ethernet, the gap had grown.
+1. **Per-FLOP cost.** The original 1994 Beowulf cost about $50k and sustained roughly 74 MFLOPS on LINPACK; it was not fast, but it made the price/performance argument concrete. By the late 1990s, larger commodity clusters using faster Pentium-class CPUs and better Ethernet/Myrinet could be scaled incrementally at far lower cost per delivered FLOP than bespoke vector systems.
 2. **Incremental scaling.** A Cray T3E was a $30M decision. A cluster started at $50k and grew node-by-node as the budget arrived. For most institutions, gradual scaling won.
 3. **Workforce.** Anyone who could administer a Linux server could administer a Beowulf cluster. The Cray system administrator was a specialty. In a labor-cost-dominated world, this mattered.
 
@@ -36,7 +36,7 @@ The basic structure that emerged and is still in use:
 
 - **OS**: Linux on every node. Initially Red Hat, then CentOS, now Rocky / Alma / Ubuntu / SUSE.
 - **Compiler**: gcc (free) or vendor (Intel, NVIDIA, IBM). Most academic codes used gcc and gfortran.
-- **MPI**: MPICH or LAM/MPI initially; OpenMPI from 2003 onward; vendor implementations (Intel MPI, MVAPICH, Cray MPT) for production HPC.
+- **MPI**: MPICH or LAM/MPI initially; Open MPI from 2004–2005 onward; vendor implementations (Intel MPI, MVAPICH, Cray MPT) for production HPC.
 - **Job scheduler**: PBS (Portable Batch System) → Torque, then **Slurm** (Lawrence Livermore, 2003) which won decisively. Slurm runs the job queue, tracks resource availability, launches and monitors jobs.
 - **Shared filesystem**: NFS in the early era, then Lustre (Cluster File Systems Inc., open-sourced 2003) and IBM GPFS / Spectrum Scale for production, OrangeFS / BeeGFS as alternatives.
 - **Cluster management**: home-grown scripts, then xCAT (IBM, 1999, open-sourced), Warewulf (Sterling's team, 2002), ROCKS (UC San Diego, 2000).
@@ -51,7 +51,9 @@ Three interconnect technologies fixed it:
 
 1. **Myrinet** (Myricom, 1995). 1.28 Gb/s, ~10 µs MPI latency. Used heavily through the early 2000s. Discontinued ~2013.
 2. **Quadrics QsNet** (1998). 3.2 Gb/s, ~3 µs latency. ASCI machines used it. Quadrics folded 2009.
-3. **InfiniBand** (2001). The standard that won. 10 Gb/s initially, 200 Gb/s NDR by 2021, 400 Gb/s XDR shipping now. ~1 µs MPI latency. Open standard, multiple vendors (Mellanox, then NVIDIA after the 2019 acquisition; Cornelis Networks, formerly Intel Omni-Path).
+3. **InfiniBand** (2001). The standard that won. 10 Gb/s initially, 200 Gb/s HDR, 400 Gb/s NDR, and 800 Gb/s XDR in the newest systems. ~1 µs MPI latency. Open standard, multiple vendors (Mellanox, then NVIDIA after the 2019 acquisition; Cornelis Networks, formerly Intel Omni-Path).
+
+*Sources: Boden et al. (1995), "Myrinet: A gigabit-per-second local area network," IEEE Micro 15(1):29–36, for the original Myrinet design; Petrini et al. (2002), "The Quadrics network: high-performance clustering technology," IEEE Micro 22(1):46–57, for QsNet figures; InfiniBand Trade Association specifications (ibta.org) for HDR/NDR/XDR line rates.*
 
 Once you bolted Myrinet or InfiniBand onto a Beowulf-style cluster, the architectural distinction between "cluster" and "MPP" dissolved. The 2000s ASCI machines (Q, White, Purple) were *all* clusters with serious interconnect, just bigger and more carefully engineered than the corner-of-the-lab variety.
 
@@ -59,7 +61,7 @@ This is the architectural picture today: every Top500 entry is a cluster of fat 
 
 ## What MPI source looks like — unchanged
 
-A startling thing about the Beowulf-to-modern transition: **the MPI source code did not change**. A 1996 MPI heat-equation solver, written for a 16-node 486 cluster with PVM-then-MPICH, recompiles and runs unchanged on a 2026 100,000-node Frontier-class system. The same `MPI_Send`, `MPI_Recv`, `MPI_Allreduce` calls. Same algorithmic decomposition. The only things that change at the source level are the constants — problem size, rank count — and sometimes the addition of GPU offload on top. Otherwise the *programming model is preserved*.
+A startling thing about the Beowulf-to-modern transition: **the MPI source code did not change**. A 1996 MPI heat-equation solver, written for a 16-node 486 cluster with PVM-then-MPICH, recompiles and runs largely unchanged on a 2026 Frontier-class system with roughly ten thousand nodes. The same `MPI_Send`, `MPI_Recv`, `MPI_Allreduce` calls. Same algorithmic decomposition. The only things that change at the source level are the constants — problem size, rank count — and sometimes the addition of GPU offload on top. Otherwise the *programming model is preserved*.
 
 This is the reason MPI persists. The whole point of investing in a programming model is portability, and MPI delivered portability so completely that codes have a 30-year working lifespan.
 
@@ -75,7 +77,7 @@ You can find people complaining that academic predictions of computing trends ne
 
 ## Lab — Build a real cluster on your laptop
 
-In `labs/10-mini-cluster/` you set up a tiny single-machine "cluster" using Docker containers as virtual nodes. You install Slurm, MPICH, and a shared NFS volume, submit a job, watch it scheduled across the containers, and run an MPI program. The architecture is identical to a 100,000-node Frontier — just smaller. Then we run the same heat-equation code from Week 9 on this mini cluster via Slurm submission, instead of `mpirun -n 4` directly. You'll see the actual production HPC workflow.
+In `labs/10-mini-cluster/` you set up a tiny single-machine "cluster" using Docker containers as virtual nodes. You install Slurm, MPICH, and a shared NFS volume, submit a job, watch it scheduled across the containers, and run an MPI program. The architecture is the same pattern as a roughly 10,000-node Frontier-class system — just smaller. Then we run the same heat-equation code from Week 9 on this mini cluster via Slurm submission, instead of `mpirun -n 4` directly. You'll see the actual production HPC workflow.
 
 ## Discussion questions
 

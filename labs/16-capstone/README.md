@@ -11,9 +11,9 @@ The same kernel, six implementations, six different programming models. See `cod
 
 ## Run them
 
-Each era directory has a `Makefile` and a `README.md`. Most build with stock Linux/macOS toolchains. The CUDA and stdpar GPU paths require either:
+Each era directory has a `README.md` with the exact compile command for that implementation. Most build with stock Linux/macOS toolchains. The CUDA and stdpar GPU paths require either:
 - An NVIDIA GPU and CUDA Toolkit (or NVHPC for stdpar GPU offload), or
-- Google Colab with a T4/A100 runtime, using `colab.ipynb` notebooks.
+- Google Colab with a T4/A100 runtime, adapting the commands from the relevant era README.
 
 ## What to do
 

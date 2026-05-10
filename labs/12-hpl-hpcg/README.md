@@ -33,12 +33,12 @@ HPCG runs preconditioned conjugate gradient on a 3D sparse system. *Memory-bandw
 
 ## Compare
 
-Note the ratio HPL_GFLOPS / HPCG_GFLOPS for your laptop. Then look up the same ratio for current Top500 systems (Frontier, Fugaku, El Capitan):
+Note the ratio HPL_GFLOPS / HPCG_GFLOPS for your laptop. Then look up the same ratio for current Top500/HPCG systems. These public-list numbers change twice a year; the table below is a rough orientation, not a source of record:
 
 | System | HPL | HPCG | Ratio |
 |---|---|---|---|
-| Frontier | ~1100 PF | ~14 PF | ~75 |
+| Frontier | ~1350 PF | ~14 PF | ~95 |
 | Fugaku   | ~440 PF  | ~16 PF | ~28 |
-| El Capitan | ~1740 PF | ~17 PF | ~100 |
+| El Capitan | ~1800 PF | ~17 PF | ~100 |
 
-Fugaku has the **best HPCG** — exactly the workload Earth-Simulator-style architectures excel at. This is the empirical case that drives the "HPL is misleading" complaint about how the Top500 is reported.
+Fugaku no longer has the highest absolute HPCG score on the current list, but its HPL/HPCG ratio remains unusually strong. That is the empirical case behind the "HPL is misleading" complaint: a system designed for memory bandwidth and application balance can look modest on HPL while staying highly competitive on a sparse, bandwidth-bound benchmark.

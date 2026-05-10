@@ -40,7 +40,7 @@ If you want to identify the most "supercomputer-distinctive" hardware in a moder
 
 Compute nodes don't have local disks for application data. They mount a **parallel filesystem** that aggregates dozens to hundreds of storage servers into one logical filesystem. The standard options:
 
-- **Lustre**: open-source. Most widely deployed in HPC. Frontier, Aurora, Fugaku all run Lustre.
+- **Lustre**: open-source. Most widely deployed in HPC. Frontier's Orion filesystem is Lustre; Fugaku uses FEFS, Fujitsu's Lustre-derived filesystem; Aurora has Lustre available alongside DAOS rather than Lustre being the whole storage story.
 - **IBM Spectrum Scale (formerly GPFS)**: proprietary, well-regarded. Sequoia/Sierra/Summit at LLNL/ORNL.
 - **DAOS** (Distributed Asynchronous Object Storage): Intel-led, object-based, designed for NVMe. Aurora's primary storage.
 - **BeeGFS**: open-source, popular for mid-sized clusters.
@@ -49,7 +49,7 @@ Throughput on a production parallel filesystem is now in the **terabytes per sec
 
 The architectural shift from spinning rust to NVMe (around 2018 for HPC) was as significant as the move from tape to disk in the 1980s. Modern systems have a tier-rich storage hierarchy:
 
-1. **GPU HBM**: TB/s bandwidth, GB capacity, μs latency. Per-GPU.
+1. **GPU HBM**: TB/s bandwidth, GB capacity, latency on the order of hundreds of nanoseconds to low microseconds depending on access path and what you include in the measurement. Per-GPU.
 2. **CPU DDR**: hundreds of GB/s, ~100 GB capacity, ~100 ns latency. Per-node.
 3. **Local NVMe (node-local burst buffer)**: ~10 GB/s, ~TB capacity, ~10 μs latency. Per-node.
 4. **Cluster-shared NVMe (e.g., DAOS)**: ~TB/s aggregate, ~PB capacity, ~ms latency.
@@ -63,11 +63,11 @@ Programming applications that span these tiers explicitly is a research area. **
 The software stack on a 2025 supercomputer, bottom up:
 
 - **OS**: Linux (HPE Cray OS = SUSE Linux Enterprise Server with custom drivers, on Frontier; RHEL on others). Stripped-down compute-node configuration plus full user-environment login nodes.
-- **Drivers and libraries**: vendor-specific accelerator stacks (CUDA, ROCm, oneAPI), high-performance MPI (Cray MPT, Intel MPI, OpenMPI, MPICH), scheduler (Slurm in 95%+ of cases).
+- **Drivers and libraries**: vendor-specific accelerator stacks (CUDA, ROCm, oneAPI), high-performance MPI (Cray MPT, Intel MPI, Open MPI, MPICH), and a site scheduler. Slurm is dominant in open HPC centers, but PBS, PJM, and other schedulers still matter on major systems.
 - **Module system**: `module load openmpi/5.0` etc., for managing multiple compiler/library versions side by side. **Lmod** is the dominant implementation.
 - **Package management for HPC**: **Spack** (LLNL) for building scientific software stacks from source with optional ABI-compatible binaries. **EasyBuild** in some European sites.
 - **Containers**: **Apptainer** (formerly Singularity) is the HPC-native container runtime — built specifically for security models that don't allow root, and for performance integration with MPI and InfiniBand. Docker doesn't fly in HPC.
-- **Job scheduling**: **Slurm** writes the job queue, allocates nodes, executes job scripts. PBS/Torque on a few sites; LSF on legacy IBM machines.
+- **Job scheduling**: **Slurm**, PBS Pro, PJM, LSF, and related systems write the job queue, allocate nodes, and execute job scripts. Slurm is the common case in many US open-science clusters, but not universal.
 - **Monitoring**: a stack of Prometheus, Grafana, custom Cray/HPE telemetry, NVIDIA DCGM, AMD SMI. Power, temperature, network counters, GPU utilization — every metric, every node, every second.
 - **User workflow tools**: **Snakemake**, **Nextflow**, **Parsl** for orchestrating long pipelines across many jobs.
 - **Data movement**: **Globus** for inter-site transfers (terabytes between sites is a normal weekly operation), **mpi-IO** within the system.
@@ -88,7 +88,7 @@ Two-phase cooling (the working fluid evaporates in the cold plate, condenses in 
 
 The site selection for a modern HPC center is dominated by:
 
-- **Power availability and price.** ORNL benefits from TVA hydroelectric. RIKEN gets Kansai grid power. Argonne gets ComEd nuclear baseload.
+- **Power availability and price.** ORNL benefits from TVA grid power, which includes hydroelectric generation but is not simply "hydro power." RIKEN gets Kansai grid power. Argonne gets ComEd/northern Illinois grid power with substantial nuclear generation in the regional mix.
 - **Cooling water availability.** Either lake/river access or a large reclaimed-water supply.
 - **Land for substations and cooling towers.** A modern HPC site footprint is mostly utility plant.
 
@@ -112,21 +112,21 @@ Recall the Cray-1:
 
 Frontier:
 
-- 9,408 nodes, each with 64-core CPU + 4 GPUs, 5 PB total memory, 14,000 ft² floor, 21 MW, 1.2 EFLOPS, ~$600M.
+- 9,408 nodes, each with 64-core CPU + 4 GPUs, about 9.4 PB combined CPU+GPU memory (roughly half DDR and half HBM), 14,000 ft² floor, 21 MW at debut, exaflop-class HPL performance, ~$600M.
 - A *thousand-user, hundreds-of-jobs-at-a-time* machine, with dynamic job scheduling. There is no "one program" per machine; there is a job queue.
 - Commodity throughout: AMD CPUs (volume product), AMD GPUs (HPC variant of a volume product), HPE Cray interconnect (the only truly bespoke bit), Linux (free software), Slurm (free software), Lustre (free software).
 - Programmed in MPI for the cross-node parallelism, OpenMP/HIP/CUDA for the on-node parallelism, with codes that have been continuously evolved for thirty years across multiple machine generations.
 
 The architectural change from "single fast machine" to "fleet of coordinated machines" is total. The technology is unrecognizable.
 
-But — and this is the point of the course — the *intellectual lineage* is direct. Frontier's GPUs are vector machines, descendants of the Cray-1 by way of the Connection Machine and CUDA. Frontier's MPI runtime descends from CFT and ASCI's NX. Frontier's Slingshot interconnect descends from the Cray T3E torus. Frontier's parallel Lustre filesystem descends from CDC's I/O subsystems. Frontier's compiler stack descends from CFT and Kuck's Parafrase.
+But — and this is the point of the course — the *intellectual lineage* is direct. Frontier's GPUs are vector machines, descendants of the Cray-1 by way of the Connection Machine and CUDA. Frontier's message-passing model descends through NX/PVM and the MPI Forum, not from CFT. Frontier's Slingshot interconnect descends from the same design line that produced T3E, SeaStar, Gemini, and Aries. Frontier's parallel Lustre filesystem descends from decades of parallel-I/O work. Frontier's compiler stack descends from CFT and Kuck's Parafrase.
 
 The architecture changed. The ideas walked through.
 
 ## Lab — A virtual datacenter
 
 In `labs/15-virtual-dc/`, we set up a small "datacenter" with:
-- 4 Docker-container "compute nodes" running Slurm and OpenMPI.
+- 4 Docker-container "compute nodes" running Slurm and Open MPI.
 - 1 "head node" with the Slurm controller and a shared NFS volume.
 - A simple "monitoring" view via Grafana (optional).
 

@@ -34,7 +34,7 @@ The bit-serial bet was technically correct for some workloads (image processing,
 
 - Same 65,536 1-bit processors (organized in groups of 32 on each chip), **but**:
 - One **Weitek 32-bit floating-point coprocessor** added per group of 32 processors. So 2,048 FPUs across the machine.
-- 64–512 KB of RAM per processor (huge upgrade from 4 Kb).
+- 64 Kbits of RAM per 1-bit processor in common CM-2 configurations, with larger aggregate memory options available. A fully configured 65,536-processor CM-2 could reach hundreds of megabytes total, but that is kilobytes per processor, not hundreds of kilobytes.
 - **Peak**: ~2.5 GFLOPS — comparable to a Cray Y-MP/8, at substantially lower cost.
 
 The CM-2 was the machine that made Thinking Machines briefly important. Sandia, Los Alamos, several oil companies, and a clutch of universities bought them. Algorithms developed for them — particle simulations, certain kinds of fluid dynamics, neural network training (the precursors to modern deep learning, in fact) — ran beautifully.
@@ -78,7 +78,7 @@ double s = (+= x);                /* reduction sum */
       WHERE (A > 0) C = A * 2    ! masked, all in parallel
 ```
 
-This is **Fortran 90 array syntax** before Fortran 90 existed. Whole-array operations, masked assignment, broadcast, reductions — all of it shipped on the CM-2 in 1988, was standardized into Fortran 90 in 1991, and is still how you write idiomatic numerical Fortran today. The Connection Machine *invented*, productized, and then taught the language community the idiom that Fortran has been built around for thirty-five years.
+This is recognizably the same idiom as **Fortran 90 array syntax** before Fortran 90 was formally standardized. Whole-array operations, masked assignment, broadcast, and reductions shipped on the CM-2 in 1988 while the Fortran 8x/90 standardization process was already underway. The Connection Machine did not single-handedly invent Fortran 90's array model, but it productized the data-parallel style early and helped prove that the idiom was usable at machine scale.
 
 This is one of the most underappreciated design influences in the history of programming languages.
 
@@ -97,7 +97,7 @@ Thinking Machines filed for Chapter 11 in **August 1994**.
 ## What survived
 
 - **Hypercube interconnect** influenced the Intel iPSC and IBM SP2 networks.
-- **Data-parallel array syntax** became Fortran 90, NumPy, MATLAB, and indirectly NumPy → JAX → PyTorch's tensor operations.
+- **Data-parallel array syntax** helped shape Fortran 90 practice, NumPy, MATLAB, and indirectly NumPy → JAX → PyTorch's tensor operations.
 - **The PRAM-ish programming model** influenced CUDA's grid-and-block abstraction (one thread per data element, hardware schedules them in warps of 32 — a *softer* SIMD that handles branch divergence by masking inactive lanes).
 - **The Star Lisp / C\* community** dispersed and ended up at Sun, Sequent, and Intel, where their data-parallel-language thinking influenced the OpenMP design and the Intel Threading Building Blocks team.
 

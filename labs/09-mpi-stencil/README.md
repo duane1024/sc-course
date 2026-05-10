@@ -4,7 +4,7 @@ A canonical distributed-memory MPI program: 1D heat equation by halo exchange. S
 
 ## Prerequisites
 
-Install MPICH or OpenMPI:
+Install MPICH or Open MPI:
 
 - macOS: `brew install mpich` or `brew install open-mpi`
 - Debian/Ubuntu: `sudo apt-get install mpich libmpich-dev`

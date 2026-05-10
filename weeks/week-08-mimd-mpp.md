@@ -2,7 +2,7 @@
 
 ## Where we are in 2026
 
-A modern supercomputer is a tightly-coupled collection of independent computers, each running a copy of an operating system, executing different parts of a parallel application, communicating over a fast network. This is the **MIMD MPP** model — Multiple Instruction Multiple Data, Massively Parallel Processor. It was invented in the late 1980s, productized in the early 1990s, and decisively won the architecture war by 1996. Every Top500 entry today is some flavor of MIMD MPP with accelerators bolted on.
+A modern supercomputer is a tightly-coupled collection of independent computers, each running a copy of an operating system, executing different parts of a parallel application, communicating over a fast network. This is the **MIMD MPP** model — Multiple Instruction Multiple Data, Massively Parallel Processor. The ideas are older, but the commercial form that won HPC took shape in the mid-1980s, was productized in the early 1990s, and decisively won the architecture war by 1996. Every Top500 entry today is some flavor of MIMD MPP with accelerators bolted on.
 
 This week is the formative phase: 1985–1997, when the industry settled the question of how to lash thousands of microprocessors together.
 
@@ -18,7 +18,7 @@ The hard part is the interconnect. The hard part has *always* been the interconn
 
 ## Intel iPSC family (1985–1990)
 
-Intel's first MPP, the **iPSC/1** (1985), was 32 to 128 Intel 80286 nodes connected in a hypercube — an explicit homage to the Connection Machine, but with full general-purpose microprocessors instead of bit-serial SIMD elements. The iPSC/2 (1988) used 386 + 387 nodes; the iPSC/860 (1990) used the i860 vector microprocessor, the first time a "supercomputer-class" microprocessor was used as a node.
+Intel's first MPP, the **iPSC/1** (1985), was 32 to 128 Intel 80286 nodes connected in a hypercube — an explicit homage to the Connection Machine, but with full general-purpose microprocessors instead of bit-serial SIMD elements. The iPSC/2 (1988) used 386 + 387 nodes; the iPSC/860 (1990) used the i860 vector microprocessor, the first time a "supercomputer-class" microprocessor was used as a node. *Sources: Intel iPSC product literature (1985–1990); Pierce (1988) for the NX/2 operating environment that shipped on the iPSC/2 and Paragon.*
 
 The iPSC family was a cautious commercial success. It established that you could *sell* MPPs to scientific customers if the per-CPU performance was good and the interconnect was fast enough. It also shipped the first credible programming environment for MPPs: **NX**, Intel's message-passing library, the direct ancestor of MPI.
 
@@ -40,6 +40,8 @@ The iPSC's successor was the **Intel Paragon XP/S**:
 - **Peak**: 300+ GFLOPS aggregate.
 - **OS**: each node ran a thin partition of OSF/1. Service nodes ran a full UNIX. Compute nodes ran a stripped microkernel. This *node specialization* is now standard on every supercomputer; the Paragon invented it.
 
+*Sources: Mattson (1995) for the Paragon programming and OS environment; Top500 June 1994 list for the brief #1 placement; Intel SSD Paragon XP/S product specification (1992) for link bandwidth and topology.*
+
 Sandia's Paragon hit Top500 #1 briefly in 1994. It was the proof of concept for ASCI Red, which we'll see shortly.
 
 ## Cray T3D (1993) and T3E (1995): Cray's MPP turn
@@ -53,6 +55,8 @@ Cray Research, watching microprocessors close the gap, did not stand still. They
 - **Globally addressable memory**: the T3D was the first MPP to expose all the memory in the machine as one shared address space, with explicit fast load/store instructions for remote memory (the **SHMEM** library).
 - **No OS on compute nodes**; just a user program and a thin runtime. Compute nodes were mute and stripped.
 
+*Sources: Cray Research T3D system architecture overview (1993); the SHMEM model is documented in the Cray T3E Programming Environment manual (SR-2017), which describes the inherited T3D mechanism.*
+
 The 3D torus was the design's signature. Why a torus? Because for the kinds of physics simulations that filled DOE labs (hydrodynamics, particle-in-cell, lattice QCD), the data-access pattern was a 3D grid with nearest-neighbor communication. Mapping the application's grid onto a physical 3D torus minimized communication distance — most messages traveled one hop.
 
 ### T3E (1995): the most successful pure MPP ever sold
@@ -61,6 +65,8 @@ The 3D torus was the design's signature. Why a torus? Because for the kinds of p
 - **Same 3D torus**, faster and bigger.
 - **Peak**: ~1.2 TFLOPS at the high end.
 - **Sales**: dozens of major installations. ECMWF, US labs, Pittsburgh Supercomputing Center, NERSC, the UK Met Office.
+
+*Sources: Cray Research T3E system architecture documentation (SR-2017); Scott & Thorson (1996) for the adaptive routing in the T3E 3D torus; Top500 lists 1996–2003 for installations and peak figures.*
 
 The T3E was the apex of the MPP form factor. It was also Cray Research's last truly successful product line before the SGI acquisition in 1996. The T3E ran for many years; the Pittsburgh "BigBen" T3E ran until 2003, ECMWF's until 2002. Codes that ran well on T3E ran well on later clusters with minimal porting — the SHMEM model survived (in fact, OpenSHMEM is still standardized today).
 
@@ -71,7 +77,9 @@ IBM's MPP take was different and ultimately more commercially successful than Cr
 - **Nodes were full RS/6000 workstations**, each running full AIX, each independently capable.
 - **High-Performance Switch** (HPS): a multi-stage interconnect with substantial bandwidth and OK latency.
 - **Programming**: native MPL (IBM's message passing) and MPI; PVM also widely used.
-- **Killer application**: ASCI Blue Pacific (LLNL, 1998), Deep Blue (the chess machine that beat Kasparov, 1997 — a 32-node SP2 with custom chess accelerator chips).
+- **Killer application**: ASCI Blue Pacific (LLNL, 1998), Deep Blue (the chess machine that beat Kasparov, 1997 — a 30-node IBM RS/6000 SP system with custom chess accelerator chips).
+
+*Sources: Agerwala et al. (1995), "SP2 System Architecture," IBM Systems Journal 34(2):152–184, for switch and node design; Hsu et al. (1990) and IBM RS/6000 SP product literature for the per-node specifications; IBM Deep Blue project documentation (1997) for the chess-accelerator system size.*
 
 IBM's choice to make every node a *full standalone system* was strategically clever. Customers could buy a small SP cluster, grow it incrementally, and not have to retrain people on a stripped-down compute node OS. This is the architectural pattern that won — modern Frontier nodes are full Linux systems, not stripped microkernels.
 
@@ -86,6 +94,8 @@ The **Accelerated Strategic Computing Initiative** (ASCI) was the DOE's response
 - **1.8 TFLOPS peak**, 1.06 TFLOPS sustained on HPL.
 - **Cost**: ~$55M. Vastly cheaper per FLOP than any vector machine.
 - Held Top500 #1 from 1997 through mid-2000.
+
+*Sources: Mattson & Henderson, "ASCI Red: experiences and lessons learned with a massively parallel teraFLOP supercomputer" (Intel/Sandia, SC97); Foster et al. (2005) for the program-level retrospective; Top500 lists June 1997 through November 2000 for the #1 reign and Rmax = 1.06 TFLOPS sustained.*
 
 ASCI Red was the moment the American HPC establishment publicly committed to the MIMD MPP path. Every subsequent ASCI/ASC machine through ~2015 was the same template: enormous numbers of commodity CPUs, custom interconnect, partitioned OS, message-passing software stack.
 

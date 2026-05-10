@@ -18,6 +18,8 @@ In 1976, a Cray-1 at 80 MHz was about 80× faster on scientific code than a cont
 | 1993 | Cray C90/16 @ ~16 GFLOPS | DEC Alpha 21064 @ 200 MHz, ~120 MFLOPS | ~133× |
 | 1996 | Cray T90/32 @ ~58 GFLOPS | DEC Alpha 21164 @ 500 MHz, ~1 GFLOPS | ~58× |
 
+**Sources for the table.** Cray peak FP64 figures are from Cray Research product literature, collected with Russell (1978) for the Cray-1, Chen (1984) for the X-MP, and the Y-MP/C90/T90 hardware reference manuals on bitsavers.org. Microprocessor LINPACK and peak-FLOPS estimates are from Dongarra's *Performance of Various Computers Using Standard Linear Equations Software* report (continuous since 1979; netlib.org/benchmark/performance.ps), the canonical source for per-CPU performance comparisons in this era. Per-microprocessor numbers are LINPACK *n* = 100 results where available, peak FP throughput otherwise; the 8080 figure is software-emulated single-precision throughput (the 8080 had no FPU) and is included for shape, not precision. The right-hand "ratio" column compares aggregate vector-machine throughput to single-microprocessor performance and should be read as an order-of-magnitude indicator, not a head-to-head benchmark.
+
 The ratio is collapsing because microprocessors are doubling every 18 months (Moore's Law plus Dennard scaling) while bespoke ECL vector machines are improving by maybe 50% per generation, and shipping new generations only every 3–4 years. The arithmetic is pitiless: an exponential beats a slow exponential, and the gap is closing.
 
 In 1989 Eugene Brooks of Lawrence Livermore wrote an essay titled **"Attack of the Killer Micros"**. The argument: in five years, microprocessor performance will catch up with bespoke supercomputer per-CPU performance, and once it does, the per-FLOP cost advantage of clusters of micros is overwhelming. Bespoke vector machines will be reduced to a niche product.
@@ -86,7 +88,7 @@ In `labs/06-killer-micros/`, you build a small benchmark harness that runs SAXPY
 - A pure-Python loop (proxy for unoptimized scalar code).
 - NumPy (proxy for compiled scalar code with auto-vectorization).
 - NumPy with explicit BLAS calls (proxy for hand-tuned vector library).
-- C with AVX-512 intrinsics (proxy for the modern micro).
+- An optional compiled C/SIMD comparison using the Era 2 vectorized C example.
 
 Then plot the trend the same way Eugene Brooks would have in 1989. The point: the "killer micro" effect is happening *again* right now between CPU and GPU, and the curves look the same.
 

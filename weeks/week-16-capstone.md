@@ -13,7 +13,7 @@ The scaffold is in `labs/16-capstone/`. We provide reference implementations; yo
 ```fortran
       SUBROUTINE SAXPY(N, A, X, Y)
       INTEGER N
-      REAL A, X(N), Y(N)
+      DOUBLE PRECISION A, X(N), Y(N)
       INTEGER I
       DO 10 I = 1, N
         Y(I) = A * X(I) + Y(I)
@@ -31,9 +31,9 @@ Modern relevance: this loop, compiled with `gfortran -O3`, gets auto-vectorized 
 ```fortran
       SUBROUTINE SAXPY(N, A, X, Y)
       INTEGER N
-      REAL A, X(N), Y(N)
+      DOUBLE PRECISION A, X(N), Y(N)
 *       Compiler will vectorize this loop into 64-element strip-mines.
-*       No source change needed — the loop is dependence-free.
+*       No source change needed - the loop is dependence-free.
 !DIR$ IVDEP
       DO 10 I = 1, N
         Y(I) = A * X(I) + Y(I)
@@ -51,7 +51,7 @@ Lab task: compile this (or its modern equivalent in C) with `clang -O3 -march=na
 ```fortran
       SUBROUTINE SAXPY(N, A, X, Y)
       INTEGER N
-      REAL A, X(N), Y(N)
+      DOUBLE PRECISION A, X(N), Y(N)
 CMIC$ DOALL SHARED(A, X, Y, N) PRIVATE(I) VECTOR
       DO 10 I = 1, N
         Y(I) = A * X(I) + Y(I)
@@ -167,7 +167,7 @@ int main() {
 }
 ```
 
-`std::execution::par_unseq` tells the implementation: "you may parallelize *and* vectorize *and* reorder the work". Compiled with NVHPC's `nvc++ -stdpar=gpu`, this **runs on a GPU** — the standard library implementation generates CUDA kernels under the hood. Compiled with stock g++ or clang, it runs threaded and vectorized on the CPU. **The same source code targets either.**
+`std::execution::par_unseq` tells the implementation: "you may parallelize *and* vectorize *and* reorder the work". Compiled with NVHPC's `nvc++ -stdpar=gpu`, this **runs on a GPU** — the standard library implementation generates CUDA kernels under the hood. With stock g++ or clang, behavior depends on the standard-library implementation and how it was built; some configurations vectorize, some use a CPU thread pool through a backend such as oneTBB, and some effectively run serial. The same source can target multiple backends, but the guarantee is semantic permission, not a portable performance promise.
 
 Equivalent in Fortran 2018:
 
@@ -229,7 +229,7 @@ This course covered the past sixty years. The next decade — from now through ~
 - **Disaggregated memory.** CXL is permitting memory pools shared across servers. The "what is a node" question is becoming harder.
 - **Photonic interconnects.** Co-packaged optics, ribbon-fiber inside chips. The bandwidth-distance trade-off shifts.
 - **Quantum + classical hybrid systems.** A coprocessor model — a quantum chip handed problems by a classical supercomputer. Not because anyone has solved a useful problem on a current quantum machine, but because the systems integration work has to start somewhere.
-- **Energy-bounded scaling.** No site has 100 MW available. A 5 EFLOPS machine in 2030 must be ~10× more efficient than today's. This is currently a research problem with no clear solution.
+- **Energy-bounded scaling.** Few public HPC sites can allocate 100 MW to a single machine. A 5 EFLOPS machine in 2030 must be much more efficient than today's if it is to fit normal facility budgets. This is currently a research problem with no clear solution.
 
 You now have the historical foundation to read each of these as they unfold and tell whether they're new ideas, recurring ideas, or recurring ideas with a new name.
 

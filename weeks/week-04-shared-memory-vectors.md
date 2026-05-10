@@ -38,7 +38,7 @@ The Cray-2 was a technology showcase but a commercial disappointment. Reasons:
 - The X-MP's three memory ports per CPU were not present on the Cray-2 (it had one port per CPU, with a much fancier crossbar to the banks). Net real-world performance was often *worse* than X-MP per CPU on bandwidth-bound code, despite the 2× clock advantage.
 - The immersion cooling was operationally painful. Field engineers needed scuba gloves. (Not really. But almost.)
 
-About 27 Cray-2s sold. It is, however, the machine that proved 2 GB of main memory was buildable, and it is the machine where serious CFD work first became routine — Pixar's RenderMan team did some early renders on a Cray-2 at Lucasfilm, including parts of the *Genesis* sequence in *Star Trek II*.
+About 27 Cray-2s sold. It is, however, the machine that proved 2 GB of main memory was buildable, and it is one of the machines where serious large-memory CFD work became routine. Do not confuse this with the earlier Lucasfilm/Pixar work on the *Genesis* sequence in *Star Trek II* (1982): that predates both the Cray-2's 1985 shipment and RenderMan's later productization.
 
 ## Cray Y-MP (1988): the X-MP grown up
 

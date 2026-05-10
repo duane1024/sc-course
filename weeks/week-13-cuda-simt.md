@@ -2,7 +2,7 @@
 
 ## Where we are in 2026
 
-Open the spec sheet for any current Top500 system: at least the top dozen entries get most of their FLOPS from GPUs. NVIDIA H100, AMD MI300X, Intel Ponte Vecchio. Every modern AI training run — every published LLM — runs on the same hardware. That hardware is, *internally*, a vector machine — descendant of the Cray-1's idea — wrapped in a programming abstraction that hides the vector ISA behind threads. The model is called **SIMT** — Single Instruction, Multiple Threads — and it was named, productized, and widely deployed by NVIDIA with **CUDA** in 2006.
+Open the spec sheet for any current Top500 system: most of the highest-FLOP systems get their arithmetic throughput from GPUs or GPU-like accelerators. NVIDIA H100, AMD MI300-class parts, Intel Ponte Vecchio. Much of modern AI training runs on the same accelerator pattern, though TPUs, Trainium, Cerebras, and other AI-specific systems are important counterexamples. That hardware is, *internally*, a vector machine — descendant of the Cray-1's idea — wrapped in a programming abstraction that hides the vector ISA behind threads. The model is called **SIMT** — Single Instruction, Multiple Threads — and it was named, productized, and widely deployed by NVIDIA with **CUDA** in 2006.
 
 This week is the architecture and the programming model.
 
@@ -92,7 +92,7 @@ Three reasons:
 | 2017 | Volta (V100) | 7.8 TFLOPS | 16 GB HBM2 | First Tensor Cores, Summit |
 | 2020 | Ampere (A100) | 9.7 TFLOPS | 80 GB HBM2e | Modern AI standard |
 | 2022 | Hopper (H100) | 34 TFLOPS | 80 GB HBM3 | Transformer engine |
-| 2024 | Blackwell (B200) | 40 TFLOPS | 192 GB HBM3e | NVLink-72 |
+| 2024 | Blackwell (B200) | 40 TFLOPS | 180 GB HBM3e | NVLink-72 |
 
 Two trends are visible: (1) FP64 throughput scaled aggressively until ~2020, then leveled off as AI workloads pulled R&D toward FP16 / FP8 / FP4. (2) Memory capacity and bandwidth grew steadily. The per-chip FLOPS-per-watt has improved more than 100× since G80.
 
@@ -125,17 +125,17 @@ Worth mentioning briefly:
 
 - **Cell BE** (Sony/Toshiba/IBM, ~2005): the Roadrunner accelerator. PowerPC + 8 SPE (Synergistic Processing Element) vector cores. Hard to program. Lasted one HPC generation.
 - **Intel Xeon Phi / Knights Landing** (2010s): Intel's "many-core x86" attempt. Had some traction (Tianhe-2 in 2013 used the prior generation). Discontinued in 2018 when Intel pivoted to discrete GPUs.
-- **Fujitsu A64FX** (2019, in Fugaku): not an accelerator — it's the *only* compute on Fugaku nodes. ARM with SVE 512-bit vectors. *No GPU at all.* Fugaku ran #1 Top500 for two years (June 2020 to May 2022). It is the only major architectural counterexample to "modern HPC = CPU host + GPU accelerator", and we discuss it next week.
+- **Fujitsu A64FX** (2019, in Fugaku): not an accelerator — it's the *only* compute on Fugaku nodes. ARM with SVE 512-bit vectors. *No GPU at all.* Fugaku ran #1 Top500 for two years (June 2020 to June 2022). It is the only major architectural counterexample to "modern HPC = CPU host + GPU accelerator", and we discuss it next week.
 
 ## Lab — Run CUDA on your laptop
 
 In `labs/13-cuda-saxpy/`, you have three options:
 
-1. **You have an NVIDIA GPU on your laptop**: install CUDA Toolkit, compile and run the provided SAXPY and stencil kernels. Profile with `nsys` and `nvprof`.
-2. **You have an Apple Silicon Mac**: we provide a Metal Performance Shaders equivalent, plus a Mojo / triton-mlir variant that runs on the Apple GPU.
-3. **You have neither**: run the lab on Google Colab (free tier provides a T4 GPU). Notebooks are pre-built.
+1. **You have an NVIDIA GPU on your laptop**: install CUDA Toolkit, compile and run the provided SAXPY kernel. Profile with `nsys` and `ncu`.
+2. **You have an Apple Silicon Mac**: run the provided Metal or MLX SAXPY version on the Apple GPU.
+3. **You have neither**: run the provided Colab notebook on a free-tier NVIDIA GPU.
 
-The kernels: SAXPY, dot product, 2D 5-point stencil, matrix-matrix multiply (naïve, then with shared-memory tiling). You profile bandwidth, occupancy, and warp-divergence behavior. The lab walks you through the same kernels in CUDA, then in Triton, then in PyTorch — three abstractions over the same hardware.
+The provided kernel is deliberately just SAXPY so the memory-bandwidth story is visible. Optional extensions ask you to try explicit CUDA copies, Triton, and larger problem sizes.
 
 ## Discussion questions
 

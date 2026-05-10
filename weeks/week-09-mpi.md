@@ -2,7 +2,7 @@
 
 ## Where we are in 2026
 
-The Message Passing Interface, MPI, has been the dominant programming model for distributed-memory parallel computing for thirty-one years. *Every* machine in the Top500 supports it. Every major scientific code uses it directly or indirectly. The MPI-4 standard (2021) is hundreds of pages, with thousands of functions, but the core conceptual surface is the same six calls it had in 1994. This is the rare standardization success in HPC: a portable, vendor-neutral API that vendors actually implemented and users actually adopted.
+The Message Passing Interface, MPI, has been the dominant programming model for distributed-memory parallel computing for more than thirty years. *Every* machine in the Top500 supports it. Every major scientific code uses it directly or indirectly. The current MPI standard is MPI-5.0, approved by the MPI Forum in 2025; it is hundreds of pages, with thousands of functions, but the core conceptual surface is the same six calls it had in 1994. This is the rare standardization success in HPC: a portable, vendor-neutral API that vendors actually implemented and users actually adopted.
 
 This week is about how MPI works, why it won, and how to write the code your grandparents would recognize.
 
@@ -97,7 +97,7 @@ MPI_Reduce(&local, &total, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 // rank 0 now has total
 ```
 
-MPI implementations turn this into a $O(\log P)$ tree reduction, sometimes hardware-accelerated (NVIDIA's NCCL, Mellanox's SHARP, Cray's hardware collectives). Hand-rolling this with point-to-point is about 10× slower because you can't see the topology of the network and the implementation can.
+MPI implementations turn this into a $O(\log P)$ tree reduction, sometimes hardware-accelerated by network collectives such as Mellanox/NVIDIA SHARP or HPE Cray collective offload. Related GPU libraries such as NCCL do the same kind of topology-aware collective optimization inside accelerator-heavy nodes and clusters. Hand-rolling this with point-to-point is often much slower because you can't see the topology of the network and the implementation can.
 
 Other essentials:
 
@@ -169,7 +169,7 @@ These omissions are why MPI has lasted thirty years and why it gets criticized r
 
 ## Lab — MPI on your laptop
 
-`labs/09-mpi-stencil/` contains a complete buildable 1D heat-equation solver in MPI plus a 2D version with halo exchange in two directions. We use **MPICH** (free, easy to install on macOS via Homebrew or on Linux via package manager). On a laptop you typically run it as:
+`labs/09-mpi-stencil/` contains a complete buildable 1D heat-equation solver in MPI. We use **MPICH** (free, easy to install on macOS via Homebrew or on Linux via package manager). On a laptop you typically run it as:
 
 ```bash
 mpicc heat1d.c -O3 -o heat1d

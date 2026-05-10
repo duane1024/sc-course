@@ -2,7 +2,7 @@
 
 ## Where we are in 2026
 
-Modern supercomputers are power-limited. The cost of a Frontier-class machine is *operating cost*, not capital cost. Site selection is driven by access to cheap and reliable electrical power. Cooling design — direct liquid cooling, immersion, two-phase fluorocarbon — is the active research front. The reason all of this is true is a structural cliff that arrived around 2004 and was first navigated, brilliantly, by IBM's BlueGene project. Before that, the DOE's ASCI program drove the scale; after BlueGene, every supercomputer designer learned to count joules first and FLOPS second.
+Modern supercomputers are power-limited. The capital cost of a Frontier-class machine is still enormous, but site power and lifetime operating cost now shape the architecture as strongly as procurement price does. Site selection is driven by access to cheap and reliable electrical power. Cooling design — direct liquid cooling, immersion, two-phase fluorocarbon — is the active research front. The reason all of this is true is a structural cliff that arrived around 2004 and was first navigated, brilliantly, by IBM's BlueGene project. Before that, the DOE's ASCI program drove the scale; after BlueGene, every supercomputer designer learned to count joules first and FLOPS second.
 
 This week is the story of those two arcs — how the labs drove scale up, and how power forced architecture to change.
 
@@ -28,6 +28,20 @@ The roster:
 | 2018 | Sierra | LLNL | IBM Power9 + NVIDIA Volta | 125 PFLOPS |
 | 2024 | El Capitan | LLNL | AMD MI300A APUs | 1.74 EFLOPS |
 
+**Sources for the table.** Peak figures are *Rpeak* from the Top500 list of the relevant June or November (whichever was closest to acceptance), except where noted. Per-machine primary citations:
+
+- **ASCI Red** (Sandia, 1997): Mattson & Henderson, "ASCI Red: Experiences and lessons learned" (SC97); Foster et al. (2005).
+- **ASCI Blue Pacific** (LLNL, 1998): LLNL Computing user documentation; Top500 November 1998.
+- **ASCI Blue Mountain** (LANL, 1998): LANL ASCI program reports; Top500 November 1998.
+- **ASCI White** (LLNL, 2000): Top500 November 2000.
+- **ASCI Q** (LANL, 2002): Top500 November 2002; HP AlphaServer SC product documentation.
+- **ASC Purple** (LLNL, 2005): IBM Power5 system documentation; Top500 November 2005.
+- **BlueGene/L** (LLNL, 2005): Adiga et al. (2002) for the architecture overview; Top500 November 2005 for the 596 TFLOPS Rmax/Rpeak figures.
+- **Roadrunner** (LANL, 2008): Barker, K. et al. (2008), "Entering the petaflop era: The architecture and performance of Roadrunner" (SC08); Top500 June 2008 for the 1.026 PFLOPS Rmax.
+- **Sequoia** (LLNL, 2012): IBM BG/Q architecture papers; Top500 June 2012.
+- **Sierra** (LLNL, 2018): IBM POWER9 + NVIDIA Volta system documentation; Top500 November 2018.
+- **El Capitan** (LLNL, 2024): Garcia et al. (2022), "El Capitan: An advanced architecture exascale system at LLNL" (SC22); Top500 November 2024 list for the debut figures, November 2025 list for updated HPL numbers.
+
 The ASC roster reads as a cross-section of the architectural evolution we're tracking in this course. The labs paid for, helped design, and ran every major architectural shift: pure MIMD MPP (Red), big SMP node clusters (White, Purple), low-power MPP at extreme scale (BlueGene), the first heterogeneous-accelerated supercomputer (Roadrunner), GPU-accelerated nodes (Sierra), APU-integrated exascale (El Capitan).
 
 ## Why scale ran into power around 2004
@@ -44,15 +58,15 @@ IBM's response to the power cliff, designed at Yorktown Heights and Rochester fr
 
 > Instead of fewer, faster, hotter cores, build *vastly more, slower, cooler* cores.
 
-- **Cores**: 65,536 PowerPC 440 cores, each running at 700 MHz. Compare to ASCI Q's 8,192 1.25 GHz Alpha cores — *eight times more cores, half the clock*.
+- **Compute nodes / processors**: 65,536 compute nodes, each with two 700 MHz PowerPC 440 processors: 131,072 processors total. Compare to ASCI Q's 8,192 1.25 GHz Alpha processors — *many more processors, half the clock*.
 - **Per-node power**: about 17 watts per node (with 2 cores). Total system: ~1.5 MW for 596 TFLOPS peak.
-- **Compare to ASCI White**: 12.3 TFLOPS at 1.7 MW (~7 GFLOPS/W). BlueGene/L: 400 GFLOPS/W. **A 50× efficiency improvement.**
+- **Compare to ASCI White**: 12.3 TFLOPS peak at 1.7 MW (~7 MFLOPS/W). BlueGene/L: roughly 596 TFLOPS peak at 1.5 MW (~400 MFLOPS/W). **About a 50× efficiency improvement.**
 - **Interconnect**: a 3D torus for nearest-neighbor (the natural fit for physics codes), plus a separate global tree network for collectives, plus a separate barrier network for synchronization. *Three* dedicated networks, each optimized for its workload.
 - **OS**: Compute Node Kernel (CNK), a stripped microkernel — only 5 MB of memory footprint. No demand paging, no signals, no fork. (Echo of Paragon.)
 
-BlueGene/L was Top500 #1 from November 2004 to June 2008, the longest reign of any single architecture. It also dominated the **Green500** (the "FLOPS per watt" ranking) — at the time, BG/L systems were 5× more efficient than runners-up.
+BlueGene/L was Top500 #1 from November 2004 to June 2008, the longest reign of any single architecture. It also dominated the **Green500** (the "FLOPS per watt" ranking) — at the time, BG/L systems were 5× more efficient than runners-up. *Sources for the BG/L specifications above: Adiga et al. (2002), "An overview of the BlueGene/L supercomputer," Proc. SC02; LLNL "BlueGene/L" historic machine page; Top500 and Green500 lists, November 2004 – June 2008.*
 
-The BG line continued: **BlueGene/P** (2007, 850 MHz, 4-core PowerPC 450), and **BlueGene/Q** (2012, IBM A2 cores, 16-core, 1.6 GHz, with hardware transactional memory — Sequoia at LLNL hit 20 PFLOPS at 7.9 MW).
+The BG line continued: **BlueGene/P** (2007, 850 MHz, 4-core PowerPC 450), and **BlueGene/Q** (2012, IBM A2 cores, 16-core, 1.6 GHz, with hardware transactional memory — Sequoia at LLNL hit 20 PFLOPS at 7.9 MW). *Sources: IBM BG/P and BG/Q system architecture papers; Top500 entries for Intrepid (ANL, BG/P) and Sequoia/Mira (LLNL/ANL, BG/Q).*
 
 ## What programming a BlueGene was like
 
@@ -70,7 +84,7 @@ The **MPI source code** of an LLNL stockpile-stewardship simulation didn't chang
 
 IBM stopped the BlueGene line after BG/Q in 2012. The reasons:
 
-1. **GPUs ate the FLOPS-per-watt crown.** A 2012 NVIDIA Kepler GPU was ~15 GFLOPS/W. BG/Q was ~2 GFLOPS/W. The custom-low-power-PowerPC bet stopped being competitive once general-purpose accelerators reached comparable efficiency.
+1. **GPUs ate the FLOPS-per-watt crown.** A 2012 NVIDIA Kepler K20X delivered roughly 5–6 GFLOPS/W in FP64 by peak-spec arithmetic, while BG/Q systems were around 2–3 GFLOPS/W at the system level. The custom-low-power-PowerPC bet stopped being competitive once general-purpose accelerators reached comparable or better efficiency at much higher node throughput.
 2. **Single-thread performance mattered for the codes that didn't parallelize.** Some workloads, especially in materials science and graph analytics, didn't have the embarrassingly-parallel structure that BG was tuned for. Those workloads needed faster cores.
 3. **Aurora**, originally planned as an Intel Xeon Phi BlueGene successor, was delayed and redesigned several times.
 4. **Internal IBM strategy** moved toward POWER + GPU, which became Summit (ORNL, 2018) and Sierra (LLNL, 2018).
@@ -82,10 +96,10 @@ But the BG architectural lessons stuck. *Fugaku* (RIKEN, 2020), built around the
 After BG, every major supercomputer design starts with a power budget — typically 20–40 MW for an exascale system — and works backward to architecture. *That* is the structural shift. Compare:
 
 - **Cray X-MP/4** (1985): 800 MFLOPS at ~125 kW. ~6 MFLOPS/W.
-- **ASCI White** (2000): 12 TFLOPS at 1.7 MW. ~7 GFLOPS/W. (Three orders of magnitude better than Cray, in 15 years.)
+- **ASCI White** (2000): 12 TFLOPS at 1.7 MW. ~7 MFLOPS/W. (A modest improvement over Cray-era system-level efficiency, but at much larger scale.)
 - **BlueGene/Q Sequoia** (2012): 20 PFLOPS at 7.9 MW. ~2.5 GFLOPS/W. (Factor of 350× over ASCI White — the slope is dramatic.)
 - **Frontier** (2022): 1.1 EFLOPS at 21 MW. **52 GFLOPS/W**.
-- **El Capitan** (2024): 1.74 EFLOPS at 30 MW. **58 GFLOPS/W**, and *~70 GFLOPS/W* on optimized workloads — close to thermodynamic limits for current logic.
+- **El Capitan** (2024): 1.8 EFLOPS-class HPL performance at about 30 MW. Roughly **60 GFLOPS/W** on the current Top500/Green500-style HPL metric.
 
 Power efficiency improvement, on the curve, has been *faster* than raw FLOPS improvement for the past two decades — because raw FLOPS isn't the constraint, joules are. Every architectural decision in a modern HPC system is in service of this constraint.
 

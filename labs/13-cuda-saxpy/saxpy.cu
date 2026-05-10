@@ -7,6 +7,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 __global__ void saxpy(int n, double a, const double *x, double *y) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;

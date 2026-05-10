@@ -5,7 +5,7 @@ Plot the Eugene-Brooks 1989 chart on your laptop. Compare four implementations o
 1. Pure Python loop (proxy: 1980-ish unoptimized).
 2. NumPy (proxy: vectorized commodity microprocessor of the 1990s).
 3. NumPy with explicit BLAS (proxy: hand-tuned scientific library).
-4. C with AVX-512 / NEON (proxy: modern microprocessor).
+4. Optional compiled C/SIMD using `code/era2-vector/saxpy_vec.c` (proxy: modern microprocessor).
 
 ## Run
 
@@ -13,7 +13,7 @@ Plot the Eugene-Brooks 1989 chart on your laptop. Compare four implementations o
 python3 killer_micros.py
 ```
 
-The script reports time and GB/s for each implementation at fixed problem size, plus a ratio table.
+The script reports time and GB/s for each Python/NumPy implementation at fixed problem size, plus a pointer to the optional compiled C/SIMD comparison.
 
 ## What to compare
 

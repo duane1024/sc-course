@@ -4,7 +4,7 @@
 
 Open the assembly listing for any modern numerical kernel — a SAXPY loop compiled with `clang -O3` on an Apple M3, a CUDA kernel running on an H100, a chunk of NumPy's BLAS path. You will see the same architectural concept: a single instruction operating on a register that holds many values at once, fed by a memory subsystem deliberately designed to keep that register full.
 
-That instruction was invented for the **Cray-1**.
+The Cray-1 did not invent vector processing, but it made register-to-register vector execution the dominant commercial form.
 
 ## The Cray-1 in one breath
 
@@ -26,7 +26,7 @@ Around 80 Cray-1s were ever built. Most are in museums. One sits in the Computer
 
 Before the Cray-1, "vector" computers — like the **CDC STAR-100** (1974) and **Texas Instruments ASC** (1973) — operated on vectors **memory-to-memory**. You issued an instruction that said "add elements of array A starting at address α to array B starting at address β, store at γ, length N." The hardware streamed values through a pipelined adder. Conceptually clean. In practice, *terrible*, because every vector operation paid the full memory-access latency on its first element. Short vectors were dramatically slower than scalar code. Real scientific codes have lots of short vectors.
 
-Cray's insight: keep a small number of vectors *resident in registers*, fast-cycle them through the functional units, and fill them from memory in advance. Every Cray vector operation is **register-to-register**. The startup cost of a vector instruction is one or two cycles, not the dozens it took on a STAR-100. Short vectors are still profitable.
+Cray's insight: keep a small number of vectors *resident in registers*, fast-cycle them through the functional units, and fill them from memory in advance. Every Cray vector operation is **register-to-register**. The startup cost of a vector instruction was still real — measured in several cycles depending on the functional unit — but it was small enough that short vectors became profitable. The Cray-1's break-even vector length was a handful of elements, not the dozens needed on memory-to-memory machines like the STAR-100.
 
 The eight vector registers (V0–V7) each held 64 elements of 64 bits each. That's 4 KB of vector register file, in 1976, in ECL.
 
@@ -81,7 +81,7 @@ For longer arrays you **strip-mine**: outer loop in scalar code, inner loop is o
 ## Why it won
 
 - **Backward-compatible parallelism.** Cray-1 vector code was Fortran with vendor extensions, not a new language. A scientist's FORTRAN-IV from a CDC 7600 ran on the Cray-1 as scalar code, often *faster than the 7600* because the scalar pipeline was also better. Then they could add vectorization incrementally. This is exactly the dynamic that AVX-512 enjoys today.
-- **Register-residency made short vectors profitable.** STAR-100 needed vectors of ~50+ to break even with scalar code. Cray-1's break-even was around length 2–3.
+- **Register-residency made short vectors profitable.** STAR-100 needed long vectors to break even with scalar code. Cray-1's break-even was a few elements for favorable operations, according to contemporary vector-processor analyses.
 - **The bandwidth was real.** Many "vector" machines had peak FLOPS that no kernel ever sustained. The Cray-1 sustained 80–120 MFLOPS on real LINPACK code, not just peak math.
 
 ## Why it eventually lost
