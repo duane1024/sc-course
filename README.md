@@ -36,6 +36,10 @@ open _build/html/index.html
 └── _toc.yml              Table of contents
 ```
 
+## Repository
+
+[github.com/duane1024/sc-course](https://github.com/duane1024/sc-course)
+
 ## License
 
 CC BY 4.0 for prose, MIT for code. Fork it, remix it, teach it.

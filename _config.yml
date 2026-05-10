@@ -1,0 +1,33 @@
+title: From Cray-1 to Frontier
+author: A working engineer's history of supercomputer architecture
+logo: ""
+copyright: "2026"
+only_build_toc_files: true
+
+execute:
+  execute_notebooks: "off"
+
+html:
+  use_issues_button: true
+  use_repository_button: true
+  use_edit_page_button: true
+  favicon: ""
+
+repository:
+  url: https://github.com/duane1024/sc-course
+  branch: master
+
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - colon_fence
+    - deflist
+    - dollarmath
+    - linkify
+    - substitution
+    - tasklist
+
+sphinx:
+  config:
+    html_theme_options:
+      navigation_with_keys: true

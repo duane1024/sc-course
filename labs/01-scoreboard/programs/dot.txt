@@ -1,0 +1,12 @@
+# Inner product, two iterations unrolled.
+#   sum = x[0]*y[0] + x[1]*y[1]
+#
+# R0..R3 hold loaded values; R4..R5 hold products; R6 accumulates.
+LOAD R0 x0
+LOAD R1 y0
+MUL  R4 R0 R1
+LOAD R2 x1
+LOAD R3 y1
+MUL  R5 R2 R3
+ADD  R6 R4 R5
+HALT

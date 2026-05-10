@@ -1,0 +1,26 @@
+; Cray-1 CAL listing for SAXPY: y(1..64) = a * x(1..64) + y(1..64)
+;
+; Conventions:
+;   A0..A7 — address registers (24-bit on Cray-1, 32-bit on Y-MP)
+;   S0..S7 — scalar registers (64-bit float or int)
+;   V0..V7 — vector registers (each 64 elements of 64 bits)
+;   VL     — vector length register
+;
+; Assume on entry:
+;   A1 contains the vector length (64)
+;   A2 contains the base address of x()
+;   A3 contains the base address of y()
+;   S1 contains the scalar 'a'
+
+         VL      A1            ; set vector length to 64
+
+         V0      ,A2,1         ; vector load: V0 := mem[A2 + 0..63 * stride 1]  (= x)
+         V1      ,A3,1         ; vector load: V1 := mem[A3 + 0..63 * stride 1]  (= y)
+
+         V2      S1*V0         ; vector multiply: V2 := S1 * V0  (= a * x)
+                               ; chains directly into the next instr -- the
+                               ; multiplier and adder run concurrently.
+
+         V1      V1+V2         ; vector add: V1 := V1 + V2  (= y + a*x)
+
+         ,A3,1   V1            ; vector store: mem[A3 + 0..63] := V1

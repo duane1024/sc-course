@@ -1,0 +1,128 @@
+# Week 7 — The Connection Machine: SIMD Massively Parallel
+
+## Where we are in 2026
+
+Every modern GPU is, internally, a SIMD massively-parallel machine. A single CUDA "warp" is 32 threads executing the same instruction in lockstep on different data. A NVIDIA H100 has 16,896 CUDA cores running at warp granularity. The architectural philosophy — *thousands of simple processors executing one program on different data* — was prototyped fifteen years before the first GPGPU paper, by a startup that built a beautifully strange machine and then went bankrupt: **Thinking Machines Corporation**, with the **Connection Machine** series.
+
+This week we look at the most architecturally interesting commercial failure in the history of supercomputing.
+
+## The MIT origin story
+
+Daniel Hillis was a graduate student at the MIT Artificial Intelligence Lab in the early 1980s, working with Marvin Minsky. His PhD thesis (1985) was titled *The Connection Machine* — an argument that AI workloads (knowledge representation, semantic networks, vision) needed a fundamentally different architecture: one where **memory and processing were colocated**, with a processor at every word of memory, and a fast interconnect that let them all communicate.
+
+The thesis argued the right number of processors was around 65,536, the right per-processor compute was *trivially small* (a 1-bit ALU, a few words of RAM), and the right interconnect was a **hypercube** of dimension 16 (so any processor could reach any other in 16 hops).
+
+Thinking Machines Corporation was founded in 1983 to build it. The first machine, the **CM-1**, shipped in 1985.
+
+## CM-1 (1985)
+
+- **65,536 1-bit processors**, each with 4 kilobits of local RAM (yes, 4 kilo*bits*), arranged on a 12-dimensional **hypercube** interconnect.
+- **No floating point**. Multi-bit integer or floating-point arithmetic was synthesized bit-serially across cycles. A 32-bit add took ~32 cycles.
+- **Clock**: 4 MHz.
+- **Cost**: about $5M.
+- **Cabinet**: an iconic 5-foot black cube, blinking with red LEDs (one per processor), now a museum piece. The cube design was deliberate — for the trade-show floor and for the reaction shot in the *Jurassic Park* film (a CM-5 actually, but the visual lineage was CM-1).
+
+Hillis's bet was that:
+
+1. AI-style workloads (graph traversal, neural networks, image processing) had abundant data parallelism — millions of independent operations per problem.
+2. A processor per data element was the natural fit.
+3. Bit-serial was OK because the processors were so cheap you could afford to waste cycles per word and still come out ahead in throughput per dollar.
+
+The bit-serial bet was technically correct for some workloads (image processing, content-addressable search) and totally wrong for others (anything floating-point heavy). When the CM-1 met its first scientific-computing customers, the answer was "we love the architecture, where's the FPU".
+
+## CM-2 (1987): floating point bolts on
+
+- Same 65,536 1-bit processors (organized in groups of 32 on each chip), **but**:
+- One **Weitek 32-bit floating-point coprocessor** added per group of 32 processors. So 2,048 FPUs across the machine.
+- 64–512 KB of RAM per processor (huge upgrade from 4 Kb).
+- **Peak**: ~2.5 GFLOPS — comparable to a Cray Y-MP/8, at substantially lower cost.
+
+The CM-2 was the machine that made Thinking Machines briefly important. Sandia, Los Alamos, several oil companies, and a clutch of universities bought them. Algorithms developed for them — particle simulations, certain kinds of fluid dynamics, neural network training (the precursors to modern deep learning, in fact) — ran beautifully.
+
+It is genuinely worth pausing on this: in 1988, a Connection Machine running a backpropagation neural network was the fastest neural-net training rig in the world. The architectural fit between SIMD massive parallelism and neural network training was already obvious. It just took until ~2012 (Krizhevsky, AlexNet, on a pair of NVIDIA GPUs) for the workload to become big enough to drive a market.
+
+## What the code looked like
+
+Three languages mattered on the Connection Machine. All of them have modern counterparts you'd recognize.
+
+### `*Lisp` — data-parallel Common Lisp
+
+Lisp with parallel-array primitives:
+
+```lisp
+(*let ((x (!! 0)))                     ; x is a 64K-element parallel array
+  (*set x (+!! a b))                   ; element-wise add: x = a + b across all 64K
+  (*let ((s (sum!! x)))                ; reduction across all 64K processors
+    s))
+```
+
+The `!!` suffix marks an operation as "happen at every processor in parallel". `sum!!` is a global reduction, implemented in $O(\log N)$ using the hypercube — every processor exchanges with its neighbors, halving the unique-summed count each step.
+
+### `C*` — data-parallel C
+
+```c
+shape [65536]ProcessorGrid;
+double:ProcessorGrid x, y, z;     /* parallel arrays */
+[ProcessorGrid] z = x + y;        /* element-wise add */
+double s = (+= x);                /* reduction sum */
+```
+
+`shape` types declared the parallel domain. Variables declared `T:Shape` were implicitly parallel — one element per processor in the shape. Operators auto-broadcast and auto-reduced.
+
+### CM Fortran — what eventually became Fortran 90
+
+```fortran
+      REAL, ARRAY(65536) :: A, B, C
+      C = A + B                  ! whole-array assignment, runs in parallel
+      S = SUM(A)                 ! reduction
+      WHERE (A > 0) C = A * 2    ! masked, all in parallel
+```
+
+This is **Fortran 90 array syntax** before Fortran 90 existed. Whole-array operations, masked assignment, broadcast, reductions — all of it shipped on the CM-2 in 1988, was standardized into Fortran 90 in 1991, and is still how you write idiomatic numerical Fortran today. The Connection Machine *invented*, productized, and then taught the language community the idiom that Fortran has been built around for thirty-five years.
+
+This is one of the most underappreciated design influences in the history of programming languages.
+
+## The lesson the Connection Machine taught — and learned
+
+The lesson it *taught*: you can write data-parallel code, in a high-level language, and have it run efficiently on thousands of processors, *if* the language is built for parallelism from the start. You don't need to bolt on `pthread_create` or `MPI_Send`. You just need parallel array operations as a first-class language feature.
+
+This is the lesson NumPy users use every day. It's the lesson Halide and Triton are built around. It's *exactly* what CUDA's grid-of-threads abstraction does at a slightly lower level. Hillis was right about the abstraction.
+
+The lesson the Connection Machine *learned*, painfully: **rigid SIMD doesn't scale to the workloads people actually have.** The CM-2 was strict SIMD: every processor executed the same instruction every cycle. If your algorithm had branches that took different paths on different data, half your processors had to NOP while the other half ran. Real applications had a lot of branches.
+
+The CM-5 (1991) was Thinking Machines' attempt to fix this. They abandoned SIMD entirely and went MIMD — every node was an independent SPARC-based workstation, with a 4-element vector unit per node, lashed together with a fat-tree interconnect. It worked technically, but it was no longer architecturally novel: a CM-5 was a fancy MIMD MPP, and IBM and Intel and Cray were going to build cheaper ones.
+
+Thinking Machines filed for Chapter 11 in **August 1994**.
+
+## What survived
+
+- **Hypercube interconnect** influenced the Intel iPSC and IBM SP2 networks.
+- **Data-parallel array syntax** became Fortran 90, NumPy, MATLAB, and indirectly NumPy → JAX → PyTorch's tensor operations.
+- **The PRAM-ish programming model** influenced CUDA's grid-and-block abstraction (one thread per data element, hardware schedules them in warps of 32 — a *softer* SIMD that handles branch divergence by masking inactive lanes).
+- **The Star Lisp / C\* community** dispersed and ended up at Sun, Sequent, and Intel, where their data-parallel-language thinking influenced the OpenMP design and the Intel Threading Building Blocks team.
+
+If you have ever written `numpy.where(a > 0, b, c)` instead of a loop with an `if` statement — you are writing CM Fortran, with sixty-four-million-times-larger data sizes and sixty-four-million-times-faster hardware. The continuity is direct.
+
+## Lab — `numpy` as a Connection Machine emulator
+
+In `labs/07-data-parallel/`, you implement Conway's Game of Life and a simple cellular automaton three ways:
+
+1. Imperative, Python loops.
+2. NumPy whole-array (the `C*` / CM Fortran way).
+3. CuPy on a GPU (or NumPy with `numba.cuda` if no GPU; or skip if you have neither).
+
+Then you visualize the result. The point: the *programming idiom* the Connection Machine taught us is now the lingua franca of scientific Python. You write `next_grid = update_rule(grid)` and the runtime handles the parallelism. That's what Hillis meant.
+
+## Discussion questions
+
+1. The CM-2 had 65,536 processors. A modern NVIDIA H100 has 16,896 CUDA cores grouped into warps of 32. Are these architecturally the same idea, or is the warp-based SIMT model fundamentally different from CM-2's bit-serial SIMD?
+2. CM Fortran shipped data-parallel array syntax in 1988. Fortran 90 standardized it in 1991. NumPy adopted it in 1995. Why did it take *another twenty years* (until ~2015) for this idiom to become the default in mainstream high-performance Python?
+3. The Connection Machine failed commercially in 1994. The architectural ideas it championed (data-parallel languages, processor-per-element) won completely 20 years later. Find another instance where the architecture won but the company that pioneered it didn't survive long enough to benefit. What does that pattern say about how to bet on architectures?
+
+## Further reading
+
+- Hillis, W.D. (1985). *The Connection Machine*. MIT Press. Out of print but downloadable from Hillis's site. Required reading.
+- Hillis, W.D. & Steele, G.L. (1986). "Data parallel algorithms". *CACM*. The argument for the model.
+- Steele, G.L. & Hillis, W.D. (1986). "Connection Machine Lisp: Fine-grained parallel symbolic processing". *LFP'86*. Steele was Thinking Machines' compiler luminary.
+- *Programming the Connection Machine in C\* and CM-Fortran*. Thinking Machines documentation, on archive.org.
+- Murray, *The Supermen*, chapter 16 — covers Cray's reaction to the Connection Machine.
