@@ -1,6 +1,14 @@
 # Introduction
 
-In June 1976 a refrigerator-sized arc of beige metal and brown vinyl arrived at [Los Alamos National Laboratory](https://www.lanl.gov/). It weighed five tons, drank 115 kilowatts, was cooled by liquid Freon piped through its frame, and could perform 160 million floating-point operations per second. It cost $8.8 million in 1976 dollars. It was called the [Cray-1](https://bitsavers.org/pdf/cray/CRAY-1/CRAY-1_Brochure_1975.pdf), and for most people in the field it was the moment the word **supercomputer** stopped being a vague honorific and became the name of a specific kind of machine.
+```{figure} images/cray1-1976-lanl.png
+:alt: A Cray-1 supercomputer installed at Los Alamos National Laboratory, 1976
+:align: right
+:width: 320px
+
+The Cray-1 at Los Alamos, 1976.
+```
+
+In June 1976 a refrigerator-sized arc of beige metal and brown vinyl arrived at [Los Alamos National Laboratory](https://www.lanl.gov/). It weighed five tons, drank 115 kilowatts, was cooled by liquid Freon piped through its frame, and could perform 160 million floating-point operations per second. It cost $8.8 million in 1976 dollars. It was called the [Cray-1](https://www.computerhistory.org/revolution/supercomputers/10/7), and for most people in the field it was the moment the word **supercomputer** stopped being a vague honorific and became the name of a specific kind of machine.
 
 A [2024 MacBook Air M3](https://everymac.com/systems/apple/macbook-air/specs/macbook-air-m3-8-core-cpu-10-core-gpu-15-2024-specs.html), fanless and battery-powered, sustains roughly 200 billion floating-point operations per second on its CPU alone — over twelve hundred Cray-1s. A single [NVIDIA H100](https://www.nvidia.com/en-us/data-center/h100/) SXM GPU performs about **two hundred thousand Cray-1s** at FP64, or more than four hundred thousand if you count its FP64 Tensor Core peak. [Frontier](https://www.olcf.ornl.gov/frontier/), the first machine to clear the exaflop barrier (June 2022, Oak Ridge National Laboratory), performs roughly **seven billion Cray-1s** in parallel.
 
