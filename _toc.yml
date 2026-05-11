@@ -29,6 +29,9 @@ parts:
   - caption: "Capstone"
     chapters:
       - file: weeks/week-16-capstone
+  - caption: "Appendix"
+    chapters:
+      - file: appendix-hpc-vs-ai-cluster
   - caption: "Reference"
     chapters:
       - file: references

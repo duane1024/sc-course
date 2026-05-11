@@ -35,6 +35,7 @@ open _build/html/index.html
 ├── code/                 The "evolution of SAXPY" gallery, one folder per era
 ├── references.md         Annotated primary-source reading list
 ├── assessment.md         Self-assessment rubric and project portfolio
+├── appendix-hpc-vs-ai-cluster.md   Appendix: modern supercomputer vs. frontier-LLM training cluster
 ├── _config.yml           Jupyter Book config
 └── _toc.yml              Table of contents
 ```
