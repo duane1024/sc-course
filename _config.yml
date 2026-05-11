@@ -1,5 +1,8 @@
 title: "From Cray-1 to Frontier: A working engineer's history of supercomputer architecture"
-author: Duane Moore
+# author is intentionally blank: the byline previously rendered as
+# "By Duane Moore" in the page footer; attribution lives in the
+# copyright line below and in the Acknowledgments section of intro.md.
+author: ""
 logo: ""
 copyright: "2026 Duane Moore"
 only_build_toc_files: true

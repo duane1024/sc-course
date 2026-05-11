@@ -29,6 +29,14 @@ echo "==> Syncing _build/html/ -> $DEST_DIR"
 mkdir -p "$DEST_DIR"
 rsync -av --delete "_build/html/" "$DEST_DIR/"
 
+# Jupyter Book builds the landing chapter as intro.html (per _toc.yml's
+# root: intro) and does not emit an index.html. Astro/Netlify expect
+# /sc-course/ to serve an index.html, so copy intro.html into place.
+# Relative links inside intro.html continue to work because the copy
+# sits in the same directory.
+echo "==> Copying intro.html -> index.html"
+cp "$DEST_DIR/intro.html" "$DEST_DIR/index.html"
+
 echo "==> Done."
 echo
 echo "Next steps:"

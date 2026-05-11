@@ -2,8 +2,6 @@
 
 **A working engineer's history of supercomputer architecture, in 15 weeks plus a capstone.**
 
-By **Duane Moore**.
-
 This is a free, self-paced course for software engineers who want to understand:
 
 - What the word "supercomputer" actually meant in 1976, and what it means now.
@@ -43,6 +41,10 @@ open _build/html/index.html
 ## Repository
 
 [github.com/duane1024/sc-course](https://github.com/duane1024/sc-course)
+
+## Acknowledgments
+
+Created by [Duane Moore](https://fun-in-space.com/), with substantial drafting and editorial assistance from Anthropic's Claude and OpenAI's ChatGPT. The argument, factual review, and structural decisions are mine; the AI tools contributed prose drafting, citation aggregation, and consistency checking. Errors that remain are mine.
 
 ## License
 

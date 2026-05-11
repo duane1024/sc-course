@@ -1,7 +1,5 @@
 # Introduction
 
-*By Duane Moore.*
-
 In June 1976 a refrigerator-sized arc of beige metal and brown vinyl arrived at Los Alamos National Laboratory. It weighed five tons, drank 115 kilowatts, was cooled by liquid Freon piped through its frame, and could perform 160 million floating-point operations per second. It cost $8.8 million in 1976 dollars. It was called the Cray-1, and for most people in the field it was the moment the word **supercomputer** stopped being a vague honorific and became the name of a specific kind of machine.
 
 A modern Apple M-series laptop, fanless and battery-powered, performs about a hundred billion floating-point operations per second on its CPU alone — six hundred Cray-1s. A single NVIDIA H100 SXM GPU performs about **two hundred thousand Cray-1s** at FP64, or more than four hundred thousand if you count its FP64 Tensor Core peak. Frontier, the first machine to clear the exaflop barrier (June 2022, Oak Ridge National Laboratory), performs roughly **seven billion Cray-1s** in parallel.
@@ -79,5 +77,11 @@ Computer history is contentious. Different people will tell you the first superc
 - Look at any machine on the Top500 and decode its architecture — node count, accelerator type, interconnect topology — from the spec sheet alone.
 - Take a kernel — say, SAXPY or a 5-point stencil — and re-implement it in the idiom of any of the six eras we cover.
 - Form a defensible opinion about whether modern "supercomputers" are the descendants of the Cray-1, or something else entirely with the same name.
+
+## Acknowledgments
+
+This course was created by [Duane Moore](https://fun-in-space.com/), with substantial drafting and editorial assistance from Anthropic's Claude and OpenAI's ChatGPT. The argument, factual review, and structural decisions are mine; the AI tools contributed prose drafting, citation aggregation, and consistency checking. Errors that remain are mine.
+
+---
 
 Let's start in 1964, with a quiet engineer in Chippewa Falls, Wisconsin, who was about to embarrass IBM.
