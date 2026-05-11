@@ -18,6 +18,42 @@ Vector processing — the thing the Cray-1 made famous — won, then lost, then 
 
 The central thesis of this course, stated once: **vector thinking migrates from era to era; it never disappears.** It moves from Cray-1 vector registers (1976) into vectorizing Fortran compilers (1978) into shared-memory vector multiprocessors (1982) into massively-parallel SIMD machines (1985) into multimedia SIMD instructions on commodity CPUs (1996) into GPU SIMT (2006) into AVX-512 and ARM SVE (2010s) and finally into the wide vector lanes of every exascale node. The *abstractions* over vector hardware change — vector registers, vector intrinsics, SIMT threads, predicated vector-length-agnostic loops, standard-library parallel algorithms — but the underlying engineering bet stays the same: *amortize instruction control over many elements, and engineer the memory subsystem hard enough to keep those elements arriving.* Everything else in this course is a variation on that one bet.
 
+## Getting the code, doing the labs
+
+This course lives in two places:
+
+- **This website** is the read-only home: 15 chapters plus the capstone, an appendix on modern HPC versus AI training clusters, an assessment and project guide, and an annotated bibliography. No signup, no paywall. Cite it, link to it, fork it.
+- **The GitHub repository** at [github.com/duane1024/sc-course](https://github.com/duane1024/sc-course) is the working home: the Markdown source for every chapter (so you can suggest changes), the runnable lab exercises, and the canonical SAXPY-across-six-eras code gallery.
+
+If you're just reading the course, the website is enough. Each chapter is self-contained. If you want to *do* the labs, clone the repo:
+
+```bash
+git clone https://github.com/duane1024/sc-course
+cd sc-course
+```
+
+The repository layout:
+
+```
+sc-course/
+├── weeks/                 Chapter source (the prose you're reading on the website)
+├── labs/                  Runnable lab exercises, one per chapter that has hands-on work
+├── code/                  SAXPY across six eras — scalar Fortran through modern C++ stdpar
+├── references.md          Annotated primary-source reading list
+├── assessment.md          Self-assessment rubric, project portfolio, HPC allocation pointers
+└── appendix-hpc-vs-ai-cluster.md   Modern supercomputer vs. frontier-LLM training cluster
+```
+
+Each lab folder has its own `README.md` with build and run instructions. The labs come in three flavors:
+
+- **Python scripts** (Labs 1, 5, 6, 7, 8): `python3 scoreboard.py` and read the output.
+- **Compiled C / Fortran / MPI / CUDA** (Labs 3, 4, 9, 13, 16, and the `code/` gallery): each folder has a `Makefile` or a one-line build command.
+- **Docker-based mini-cluster** (Labs 10 and 15): `docker compose up -d`, then `sbatch` into a containerized Slurm cluster. The architecture is identical to a real HPC site, just smaller.
+
+You will need: a Unix-like environment (Linux, macOS, or WSL on Windows), a C/C++ compiler (`gcc` or `clang`), `gfortran`, Python 3 with NumPy, MPICH or OpenMPI for the MPI labs, and Docker for the cluster labs. For the CUDA lab you'll want an NVIDIA GPU; if you don't have one, a Google Colab account with the free T4 runtime works for everything in the course. The `assessment.md` page also lists free educational allocations on real HPC systems (NSF ACCESS, OLCF DD, ALCF DD, LUMI) for projects that need cluster scale.
+
+The content is licensed **CC BY 4.0**; the code is **MIT**. Issues and pull requests are welcome on GitHub — corrections, additions, translations, classroom adaptations.
+
 ## How this course is structured
 
 Fifteen weeks. Each week is a chapter. Each chapter has:

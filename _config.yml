@@ -4,6 +4,11 @@ logo: ""
 copyright: "2026 Duane Moore"
 only_build_toc_files: true
 
+# Published under https://fun-in-space.com/sc-course/
+# This is used for sitemap.xml, OpenGraph meta tags, and canonical URLs.
+# Internal navigation uses relative links and is unaffected.
+html_baseurl: "https://fun-in-space.com/sc-course/"
+
 execute:
   execute_notebooks: "off"
 
