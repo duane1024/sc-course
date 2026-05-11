@@ -123,7 +123,8 @@ The architecturally interesting result is: **modern CPUs are growing toward SIMT
 
 If SIMT is just "write per-element code and let the runtime aggregate into vector lanes," that's an abstraction, not a hardware requirement. Could you write CPU code that thinks in SIMT-style and have a compiler map it onto AVX-512 or NEON? Yes — that's exactly what Intel's open-source **ISPC** (Implicit SPMD Program Compiler, Pharr & Mark 2012) does. The same SAXPY kernel:
 
-```ispc
+```c
+// ISPC source — looks like C with a `foreach` and `uniform` qualifier
 export void saxpy(uniform int n, uniform float a,
                   uniform float x[], uniform float y[]) {
     foreach (i = 0 ... n) {

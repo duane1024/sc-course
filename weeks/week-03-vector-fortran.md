@@ -57,7 +57,7 @@ CFT and its descendants relied on a small set of source-level transformations to
 
 ### Loop interchange
 
-```fortran
+```text
       DO 10 J = 1, N        DO 10 I = 1, N
         DO 20 I = 1, N    →   DO 20 J = 1, N
           A(I,J) = ...          A(I,J) = ...
@@ -113,7 +113,7 @@ If a loop has both vectorizable and non-vectorizable parts, split it into two lo
 
 Eliminate a loop-carried dependency on a scalar by promoting it to a temporary array:
 
-```fortran
+```text
       DO 10 I = 1, N           DO 10 I = 1, N
         T = X(I)*X(I) + 1   →    T(I) = X(I)*X(I) + 1
         Y(I) = T*A             Y(I) = T(I)*A
