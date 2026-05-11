@@ -32,3 +32,4 @@ parts:
   - caption: "Reference"
     chapters:
       - file: references
+      - file: assessment

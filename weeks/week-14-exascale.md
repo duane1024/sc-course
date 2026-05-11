@@ -76,6 +76,28 @@ For the workloads that Japanese national institutions actually run — climate m
 
 The architectural success of Fugaku revives a question every HPC architect re-asks: **does the workload genuinely need the per-flop throughput of GPUs, or is it bandwidth-bound, in which case a wide-SIMD CPU with HBM is sufficient?** For climate, weather, and a chunk of CFD: bandwidth-bound. For dense linear algebra and AI training: throughput-bound. Different workloads, different answers.
 
+### What SVE code looks like
+
+SVE's signature design choice is **vector-length agnosticism**: the hardware vector width is *not encoded in the program*. The same binary runs efficiently on chips with 128-bit, 256-bit, 512-bit, or wider vectors. The programmer writes a loop with a predicate that masks off lanes past the array end:
+
+```c
+#include <arm_sve.h>
+
+void daxpy_sve(size_t n, double a, const double *x, double *y) {
+    for (size_t i = 0; i < n; i += svcntd()) {
+        svbool_t   pg = svwhilelt_b64(i, n);     // active lanes for this chunk
+        svfloat64_t xv = svld1(pg, &x[i]);
+        svfloat64_t yv = svld1(pg, &y[i]);
+        yv = svmla_f64_m(pg, yv, xv, svdup_f64(a));   // y += a*x, masked
+        svst1(pg, &y[i], yv);
+    }
+}
+```
+
+There is no `8` or `16` in the loop. `svcntd()` returns the runtime double count, `svwhilelt_b64` builds the per-lane mask, and every operation is *predicated* on that mask. On an A64FX core (512-bit), each iteration processes 8 doubles; on a future 1024-bit Arm chip the same binary processes 16. *The Cray-1's strip-mining wrapper has been moved inside the ISA.*
+
+This is the architectural strength of Fugaku: SVE code compiled once will run efficiently on every future Arm HPC chip without recompilation, because the program never asserted a width. Stephens et al. (2017) describes the design rationale; the worked example above is in the report's "Further reading."
+
 ## What's the "vector processing as a mainstream capability" picture, then?
 
 Every machine on this list runs vector code:

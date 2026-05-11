@@ -221,6 +221,17 @@ A 1,500–2,500 word essay with these sections:
 
 If you're auditing this course online, no one will grade you. The point of the essay is to make the synthesis explicit to yourself. If you want feedback, post your essay as a discussion in the course repo's GitHub Discussions, link your code, and the maintainers (and other students) will respond.
 
+## Going further: capstone variants
+
+SAXPY-across-eras is the minimum-viable capstone — it isolates the *programming-model* dimension while keeping the kernel trivial. If you want a stronger project, swap in a more interesting kernel and keep the cross-era framing. Some directions that work:
+
+- **Sparse matrix-vector multiply** on a matrix from the [SuiteSparse Matrix Collection](https://sparse.tamu.edu). The kernel is *irregular*, so the abstractions that hid SAXPY's costs cleanly are forced to confront gather/scatter, load imbalance, and (on MPI) communication patterns that aren't pure halo exchange.
+- **3D 7-point stencil** with a domain that spans multiple nodes. Closer to real climate / CFD codes; the MPI version has actual halo exchange (revisit Lab 9); the GPU version exercises shared-memory tiling.
+- **Climate mini-app**, specifically [`miniWeather`](https://github.com/mrnorman/miniWeather) — explicitly designed as an HPC training proxy. Has reference implementations in MPI, OpenMP, OpenACC, CUDA, and Kokkos; doing a comparative Roofline analysis across these is paper-quality work.
+- **Dense `dgemm`** comparing naïve, blocked, threaded, and tuned-BLAS implementations. The point is that one library call (Week 7's lesson) hides four decades of vector and parallel optimization.
+
+Each of these gives you the same cross-era structure as the canonical capstone with more analytical surface area. See `assessment.md` for the full project portfolio and reproducibility expectations.
+
 ## What comes next
 
 This course covered the past sixty years. The next decade — from now through ~2035 — is being shaped by:

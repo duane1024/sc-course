@@ -31,6 +31,7 @@ Annotated reading list, organized roughly by chapter. Items marked **★** are p
 - Padua, D.A. & Wolfe, M.J. (1986). "Advanced compiler optimizations for supercomputers". *CACM* 29(12):1184–1201.
 - ★ Wolfe, M. (1996). *High Performance Compilers for Parallel Computing*. Addison-Wesley. The textbook.
 - *CFT Reference Manual*, Cray Research publication SR-0009. On bitsavers.org.
+- HPE/Cray Fortran `IVDEP` directive documentation. Useful for tracing the Cray-style directive vocabulary forward into the modern HPE compiler.
 - Maleki, Saeed et al. (2011). "An evaluation of vectorizing compilers". *PACT '11*. Empirical comparison of GCC, ICC, IBM XL on a 151-loop benchmark.
 
 ## Week 4 — X-MP, Cray-2, Y-MP
@@ -123,11 +124,16 @@ Annotated reading list, organized roughly by chapter. Items marked **★** are p
 - ★ NVIDIA, *CUDA Programming Guide*, current. docs.nvidia.com/cuda/.
 - NVIDIA H100 and Blackwell product briefs. Use for FP64, HBM capacity, and current GPU spec claims.
 - Volkov, V. (2010). "Better performance at lower occupancy". *GTC '10*.
+- ★ Pharr, M. & Mark, W.R. (2012). "ISPC: A SPMD compiler for high-performance CPU programming". *InPar '12*. llvm.org/pubs/2012-05-13-InPar-ispc.html. The argument for SPMD-on-SIMD as the right model for CPU vectorization. Required reading for the Week 13 sidebar.
+- ISPC documentation, ispc.github.io. The compiler is open source (BSD).
+- OpenACC standard, openacc.org. Current version (3.4) covers directive-based accelerator offload. The historically important alternative to OpenMP target offload.
 
 ## Week 14 — Exascale
 
 - Atchley, S. et al. (2023). "Frontier: Exploring exascale". *Proc. SC23*.
 - Sato, M. et al. (2020). "Co-design for A64FX manycore processor and Fugaku". *Proc. SC20*.
+- ★ Stephens, N., Biles, S., Boettcher, M., Eapen, J., Eyole, M. et al. (2017). "The ARM Scalable Vector Extension". *IEEE Micro* 37(2):26–39. The canonical SVE design paper; introduces vector-length-agnostic programming.
+- ARM, *SVE and SVE2 Programmer's Guide*, developer.arm.com. Practical reference for the intrinsics.
 - Garcia, K. et al. (2022). "El Capitan: An advanced architecture exascale system at LLNL". *Proc. SC22*.
 - RIKEN R-CCS, "About Fugaku". Current public system specifications.
 - LLNL Livermore Computing, *El Capitan* platform documentation (hpc.llnl.gov/hardware/compute-platforms/el-capitan). Primary public source for the as-deployed node count and on-site configuration.
@@ -143,12 +149,23 @@ Annotated reading list, organized roughly by chapter. Items marked **★** are p
 - LLNL Livermore Computing documentation (hpc.llnl.gov).
 - HPE (2021). *Slingshot Architecture White Paper*.
 - *HPC User Reports* from NERSC (nersc.gov), updated annually. Real-world operational experience.
+- ★ Williams, S., Waterman, A. & Patterson, D. (2009). "Roofline: An insightful visual performance model for multicore architectures". *CACM* 52(4):65–76. The canonical Roofline paper. The single best one-page tool for reasoning about kernel performance across architectures.
+- ★ McCalpin, J.D. (1995, ongoing). *STREAM: Sustainable Memory Bandwidth in High Performance Computers*. University of Virginia. cs.virginia.edu/stream. The canonical memory-bandwidth microbenchmark.
+- HPCG benchmark project, hpcg-benchmark.org. The complement to HPL for memory- and communication-bound applications.
 
 ## Capstone
 
 - Reinders, J. et al. (2024). *Data Parallel C++: Mastering DPC++ for Programming of Heterogeneous Systems Using C++ and SYCL*. Apress (free PDF).
 - Trott, C.R. et al. (2022). "Kokkos 3: Programming model extensions for the exascale era". *IEEE TPDS* 33(4):805–817.
 - Reed, D., Gannon, D. & Dongarra, J. (2022). "Reinventing high performance computing: Challenges and opportunities". arXiv:2203.02544.
+
+### Datasets and mini-apps for projects
+
+- Bailey, D.H. et al. (1991, ongoing). *NAS Parallel Benchmarks*. nas.nasa.gov/publications/npb.html. The canonical benchmark suite for CFD-adjacent parallel work; eight kernels and pseudo-applications across multiple problem-size classes.
+- Norman, M. *miniWeather*. github.com/mrnorman/miniWeather. A miniature climate-modeling proxy app explicitly designed for HPC training, with reference implementations in MPI, OpenMP, OpenACC, CUDA, SYCL, and Kokkos. The single best capstone mini-app.
+- LLNL. *LULESH*: Livermore Unstructured Lagrangian Explicit Shock Hydrodynamics. github.com/LLNL/LULESH. A widely cited proxy application for shock-physics workloads; used in many HPC performance papers.
+- Davis, T. & Hu, Y. (2011). "The University of Florida sparse matrix collection". *ACM TOMS* 38(1):1–25. The SuiteSparse Matrix Collection at sparse.tamu.edu — primary source of real-world sparse matrices for SpMV benchmarking.
+- Matrix Market, math.nist.gov/MatrixMarket. Older companion sparse-matrix archive, still useful.
 
 ## Modern long-form essays (free online, recommended)
 

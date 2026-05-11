@@ -33,7 +33,8 @@ open _build/html/index.html
 ├── weeks/                15 chapters + capstone, one per week
 ├── labs/                 Runnable labs (one per chapter that has hands-on work)
 ├── code/                 The "evolution of SAXPY" gallery, one folder per era
-├── references.md         Annotated reading list
+├── references.md         Annotated primary-source reading list
+├── assessment.md         Self-assessment rubric and project portfolio
 ├── _config.yml           Jupyter Book config
 └── _toc.yml              Table of contents
 ```

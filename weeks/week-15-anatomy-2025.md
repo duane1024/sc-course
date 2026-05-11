@@ -36,6 +36,22 @@ The interconnect is what separates a supercomputer from a colocation rack of ser
 
 If you want to identify the most "supercomputer-distinctive" hardware in a modern system, point at the interconnect. The CPUs and GPUs are off-the-shelf. The interconnect is bespoke.
 
+### A node-level subtlety: NUMA and first-touch
+
+Within a single Frontier node there are two CPU NUMA domains, eight GCDs each with their own HBM stack, and a topology of Infinity Fabric links between them. Memory access cost is not uniform — a load from a thread on socket 0 to memory physically attached to socket 1 is two to three times slower than a local access. This is **NUMA** (Non-Uniform Memory Access), and it has been a within-node performance concern since the SGI Origin 2000 (1996).
+
+The practical consequence: on a NUMA system, *the thread that first touches a page determines where the page is allocated.* If your program allocates a big array on the main thread and then parallelizes a loop over it, all the pages live in one NUMA domain and the threads on the other domain stall on remote loads. The fix — a one-liner that has become reflexive in HPC code — is to perform the *initial* allocation pass in parallel with the same iteration schedule as the computation:
+
+```c
+#pragma omp parallel for schedule(static)
+for (size_t i = 0; i < n; i++) a[i] = 0.0;   // first-touch placement
+
+#pragma omp parallel for simd schedule(static)
+for (size_t i = 0; i < n; i++) a[i] = b[i] + alpha * c[i];   // hits local memory
+```
+
+Same pattern on every NUMA-aware HPC system since 1996. The mechanism is invisible until you measure it; then it can be a 2-3× performance lever.
+
 ## Storage: the parallel filesystem
 
 Compute nodes don't have local disks for application data. They mount a **parallel filesystem** that aggregates dozens to hundreds of storage servers into one logical filesystem. The standard options:
@@ -58,12 +74,40 @@ The architectural shift from spinning rust to NVMe (around 2018 for HPC) was as 
 
 Programming applications that span these tiers explicitly is a research area. **Burst buffer** APIs let an application stage data through fast NVMe before doing slow operations on Lustre.
 
+## Reasoning about performance: the Roofline model
+
+A machine this complex needs an analysis framework or every performance argument becomes anecdotal. The standard one in HPC since 2009 is **Roofline** (Williams, Waterman & Patterson, *CACM* 52(4)). It is simple enough to fit on a postcard and useful enough to apply to every kernel in this course.
+
+A kernel does some number of floating-point operations $F$ and moves some number of bytes from memory $B$. Its **arithmetic intensity** is
+
+$$ I = F / B \quad \text{(flop/byte)} $$
+
+A machine has a peak FLOPS rate $P_\text{peak}$ and a peak memory bandwidth $B_\text{peak}$. Achievable performance on this kernel is bounded by:
+
+$$ P_\text{achievable} = \min\bigl(P_\text{peak},\; I \cdot B_\text{peak}\bigr) $$
+
+Plot $\log(P)$ vs $\log(I)$. You get a roof: a slanted line of slope $B_\text{peak}$ for the memory-bound regime, transitioning to a flat ceiling at $P_\text{peak}$ for the compute-bound regime. The "ridge point" is at $I^* = P_\text{peak} / B_\text{peak}$.
+
+A worked example. Frontier's MI250X has $P_\text{peak} \approx 47$ TFLOPS FP64 per GCD and $B_\text{peak} \approx 1.6$ TB/s of HBM bandwidth. The ridge point is $I^* \approx 30$ flop/byte. Now:
+
+- **SAXPY** has 2 flops per element, 24 bytes moved (two loads, one store, 8 bytes each). $I = 2/24 \approx 0.08$ flop/byte. *Massively* memory-bound — expect $\sim 130$ GFLOPS, about 0.3% of peak. SAXPY on an MI250X is *not* a FLOPS workload; it's a bandwidth workload.
+- **DGEMM** at large $N$ has $I \approx N/3$ flop/byte (with cache reuse). For $N=4096$, $I \approx 1300$ flop/byte. Compute-bound, expect near peak.
+- **5-point stencil** has 4 flops and ~40 bytes per cell (rough). $I \approx 0.1$. Memory-bound.
+- **HPCG's sparse conjugate gradient kernel**: typically $I \approx 0.2-0.4$. Why HPCG reports 1-2% of HPL FLOPS on the same hardware.
+
+The framework explains the gap between "peak FLOPS" and "real application FLOPS" in one line: most scientific kernels live in the memory-bound regime, where peak FLOPS is irrelevant and only memory bandwidth matters. The Earth Simulator's high efficiency (Week 12) was because its bytes-per-flop ratio was generous; modern GPUs have huge FLOPS budgets but bytes-per-flop has shrunk, and most applications haven't moved with it.
+
+Roofline is also the right framework for benchmarks: **STREAM** (McCalpin, 1995) is the canonical microbenchmark for the bandwidth roof, and **HPCG** is the canonical sparse-application benchmark for the *practical* compute ceiling. The Top500 reports HPL (high $I$, hits the peak roof) and HPCG (low $I$, hits the bandwidth roof) precisely because those two numbers bracket the achievable performance of real codes.
+
+A working engineer should be able to look at any kernel, estimate its arithmetic intensity to within a factor of two, and predict whether it will be bandwidth- or compute-bound on a target machine. That single skill removes most of the mystery from "why isn't my code hitting peak."
+
 ## Software: the pyramid
 
 The software stack on a 2025 supercomputer, bottom up:
 
 - **OS**: Linux (HPE Cray OS = SUSE Linux Enterprise Server with custom drivers, on Frontier; RHEL on others). Stripped-down compute-node configuration plus full user-environment login nodes.
 - **Drivers and libraries**: vendor-specific accelerator stacks (CUDA, ROCm, oneAPI), high-performance MPI (Cray MPT, Intel MPI, Open MPI, MPICH), and a site scheduler. Slurm is dominant in open HPC centers, but PBS, PJM, and other schedulers still matter on major systems.
+- **Programming models**: at any given site you will find code written in MPI + OpenMP (the workhorse), MPI + CUDA / HIP (NVIDIA / AMD GPU sites), MPI + SYCL (Aurora and oneAPI sites), MPI + OpenACC (legacy and incremental-offload codes, still active at NCAR and ECMWF), plus portable C++ abstractions like **Kokkos** (LLNL), **Raja** (LLNL), and **SYCL/DPC++** (Intel-led, multi-vendor). The diversity is real and not converging fast — codes that need to run on Frontier *and* Aurora *and* El Capitan typically go through a portability layer rather than committing to one vendor stack.
 - **Module system**: `module load openmpi/5.0` etc., for managing multiple compiler/library versions side by side. **Lmod** is the dominant implementation.
 - **Package management for HPC**: **Spack** (LLNL) for building scientific software stacks from source with optional ABI-compatible binaries. **EasyBuild** in some European sites.
 - **Containers**: **Apptainer** (formerly Singularity) is the HPC-native container runtime — built specifically for security models that don't allow root, and for performance integration with MPI and InfiniBand. Docker doesn't fly in HPC.

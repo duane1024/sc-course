@@ -119,6 +119,25 @@ For workloads where both work — uniform stride-1 arithmetic — they are equiv
 
 The architecturally interesting result is: **modern CPUs are growing toward SIMT**. ARM SVE2's "vector-length agnostic" predicated execution, RISC-V V's masked vector ops, Intel AVX-512's per-lane masks, the proliferation of `vcompress`/`vexpand` instructions — all of these are walking the CPU vector ISA toward what GPUs already are. The two architectural lines (CPU SIMD, GPU SIMT) are converging.
 
+### Sidebar: ISPC, or SIMT on the CPU
+
+If SIMT is just "write per-element code and let the runtime aggregate into vector lanes," that's an abstraction, not a hardware requirement. Could you write CPU code that thinks in SIMT-style and have a compiler map it onto AVX-512 or NEON? Yes — that's exactly what Intel's open-source **ISPC** (Implicit SPMD Program Compiler, Pharr & Mark 2012) does. The same SAXPY kernel:
+
+```ispc
+export void saxpy(uniform int n, uniform float a,
+                  uniform float x[], uniform float y[]) {
+    foreach (i = 0 ... n) {
+        y[i] = a * x[i] + y[i];
+    }
+}
+```
+
+`foreach` declares "this loop body is per-element parallel." The compiler emits a `gang` of program instances, each running on a SIMD lane (8 lanes on AVX-512, 4 on AVX2, etc.). Branches that diverge across lanes get masked. Reductions get tree-reduced across lanes. Gather/scatter loads compile to `vgatherdps`/`vscatterdps`.
+
+The lesson is that SIMT is a *programming-model* idea, not a GPU-only idea. Treat ISPC as the missing intellectual bridge between "I write CUDA kernels" and "I get good AVX-512 throughput on a CPU." The same mental model applies to both.
+
+Pharr's argument is worth reading in its original form (linked in `references.md`). The 2012 paper makes the case more clearly than any tutorial: the SPMD-on-SIMD style was developed for GPUs because GPUs forced it, but it's a better way to think about CPU vectorization than what most compilers do with auto-vectorization.
+
 ## What about non-NVIDIA accelerators in HPC?
 
 Worth mentioning briefly:

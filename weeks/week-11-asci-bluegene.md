@@ -103,6 +103,8 @@ After BG, every major supercomputer design starts with a power budget — typica
 
 Power efficiency improvement, on the curve, has been *faster* than raw FLOPS improvement for the past two decades — because raw FLOPS isn't the constraint, joules are. Every architectural decision in a modern HPC system is in service of this constraint.
 
+The same dynamic also reshaped what "performance" meant. From the mid-2000s on, the field needed a benchmark that measured *delivered* memory bandwidth, not peak FLOPS. The canonical answer is **STREAM** (McCalpin, 1995, University of Virginia) — four tiny kernels (copy, scale, add, triad) sized far beyond any cache, reporting sustained bytes-per-second. STREAM is the bandwidth equivalent of LINPACK and is the right number to look at first when reasoning about post-Dennard architectures. We'll see it return in the Roofline discussion in Week 15.
+
 ## Lab — Profile your laptop's power
 
 In `labs/11-power-profile/`, you measure the energy cost of three SAXPY implementations on your laptop:

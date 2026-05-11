@@ -157,6 +157,28 @@ The inner loop is over `I`, the fast-varying index — good, stride-1. There are
 
 A dozen instructions per 64 grid points. This kernel was the standard demo of vector machines, and it's still the standard demo of every SIMD ISA today.
 
+## The directive bridge: historical to modern
+
+One of the more pleasant features of the Cray-derived vector idiom is that almost all of it translates directly into modern code. Here is a Cray-style annotation alongside its 2026 equivalent:
+
+```fortran
+! Cray-style: vendor directives on a vector multiprocessor.
+CMIC$ DOALL SHARED(A, B, C, N) PRIVATE(I)
+!DIR$ IVDEP
+      DO 10 I = 1, N
+        C(I) = A(I) + B(I)
+   10 CONTINUE
+
+! Modern equivalent, same semantics, same idiom:
+!$OMP PARALLEL DO SHARED(A, B, C) PRIVATE(I)
+!$OMP SIMD
+      DO I = 1, N
+        C(I) = A(I) + B(I)
+      END DO
+```
+
+The directive language changed; the *contract between programmer and compiler* did not. `CMIC$ DOALL` becomes `!$OMP PARALLEL DO`; `!DIR$ IVDEP` becomes `!$OMP SIMD` (or the C99 `restrict` keyword in C); the body of the loop is identical. A working engineer reading 1985 Cray code should be able to mentally substitute the modern directive and run it under any current OpenMP-capable compiler. This is why HPC codebases survive across hardware generations: the *idiom* is durable even when the *syntax* turns over.
+
 ## Lab — Compiler vectorization on a modern laptop
 
 Even though we don't have a Cray-1, every modern compiler is essentially a souped-up CFT. In `labs/03-vectorize/` we work through six small loops in C — some easy to vectorize, some hard, some impossible — and read the compiler's vectorization report:

@@ -16,6 +16,8 @@ That difference — between *one fast machine* and *one fast collection of machi
 
 Vector processing — the thing the Cray-1 made famous — won, then lost, then won again in disguise. Today every laptop CPU has SIMD vector units (AVX, NEON, SVE), every GPU is essentially a wide vector machine with branch-divergence handling, and the workloads that drive the Top500 are matrix multiplies — which is to say, *exactly the workload Cray designed for in 1972*. But the hardware running those workloads is not what Cray would have built. Understanding why is the whole point.
 
+The central thesis of this course, stated once: **vector thinking migrates from era to era; it never disappears.** It moves from Cray-1 vector registers (1976) into vectorizing Fortran compilers (1978) into shared-memory vector multiprocessors (1982) into massively-parallel SIMD machines (1985) into multimedia SIMD instructions on commodity CPUs (1996) into GPU SIMT (2006) into AVX-512 and ARM SVE (2010s) and finally into the wide vector lanes of every exascale node. The *abstractions* over vector hardware change — vector registers, vector intrinsics, SIMT threads, predicated vector-length-agnostic loops, standard-library parallel algorithms — but the underlying engineering bet stays the same: *amortize instruction control over many elements, and engineer the memory subsystem hard enough to keep those elements arriving.* Everything else in this course is a variation on that one bet.
+
 ## How this course is structured
 
 Fifteen weeks. Each week is a chapter. Each chapter has:
