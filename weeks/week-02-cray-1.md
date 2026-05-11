@@ -105,7 +105,7 @@ In `labs/02-cal-listing/`, you'll find an annotated CAL listing for a 1D stencil
 
 ## Further reading
 
-- Russell, Richard M. (1978). "The CRAY-1 Computer System". *Communications of the ACM*. The canonical primary source. 12 pages, dense, beautiful.
-- *Cray-1 Computer System Hardware Reference Manual*, publication 2240004. On bitsavers.
-- Murray, *The Supermen* (1997), chapters 6–8.
-- Patterson & Hennessy, Appendix G (Vector Processors). Cray-1 and CDC STAR-100 are the worked examples.
+- Russell, Richard M. (1978). ["The CRAY-1 Computer System"](https://dl.acm.org/doi/10.1145/359327.359336). *Communications of the ACM*. The canonical primary source. 10 pages, dense, beautiful.
+- [*Cray-1 Computer System Hardware Reference Manual*](https://bitsavers.org/pdf/cray/CRAY-1/2240004C_CRAY-1_Hardware_Reference_Nov77.pdf), publication 2240004.
+- Murray, Charles J. (1997). [*The Supermen: The Story of Seymour Cray and the Technical Wizards Behind the Supercomputer*](https://archive.org/details/supermenstory00murr), chapters 6–8.
+- Hennessy & Patterson, [*Computer Architecture: A Quantitative Approach*](https://shop.elsevier.com/books/computer-architecture/hennessy/978-0-443-15406-5), Appendix G (Vector Processors). Cray-1 and CDC STAR-100 are the worked examples.

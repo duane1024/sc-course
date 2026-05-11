@@ -72,7 +72,7 @@ In `labs/01-scoreboard/`, you'll find a Python skeleton that simulates a simplif
 
 ## Further reading
 
-- Thornton, J.E., *Design of a Computer: The Control Data 6600*, 1970. The primary source. Hard to find a paper copy; the bitsavers.org PDF is essential.
-- Hennessy & Patterson, *Computer Architecture: A Quantitative Approach*, Appendix C — has the canonical scoreboarding example.
-- Watson memo (1963): widely reprinted, e.g., in Bell, Mudge & McNamara, *Computer Engineering: A DEC View of Hardware Systems Design*.
-- Murray, Charles J. (1997). *The Supermen: The Story of Seymour Cray and the Technical Wizards Behind the Supercomputer*. The standard popular biography.
+- Thornton, J.E., [*Design of a Computer: The Control Data 6600*, 1970](https://archive.computerhistory.org/resources/text/CDC/cdc.6600.thornton.design_of_a_computer_the_control_data_6600.1970.102630394.pdf).
+- Hennessy & Patterson, [*Computer Architecture: A Quantitative Approach*](https://shop.elsevier.com/books/computer-architecture/hennessy/978-0-443-15406-5), Appendix C — has the canonical scoreboarding example.
+- Watson memo (1963): widely reprinted, e.g., in Bell, Mudge & McNamara, [*Computer Engineering: A DEC View of Hardware Systems Design*](https://archive.org/details/computerengineer00bell).
+- Murray, Charles J. (1997). [*The Supermen: The Story of Seymour Cray and the Technical Wizards Behind the Supercomputer*](https://archive.org/details/supermenstory00murr). The standard popular biography.
