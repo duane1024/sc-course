@@ -2,9 +2,9 @@
 
 ## Where we are in 2026
 
-Four machines define the present. Three of them — **Frontier**, **Aurora**, **El Capitan** — are American CPU-plus-GPU systems sitting on the post-2022 exascale plateau. One of them — **Fugaku** — is a Japanese ARM-with-wide-vectors machine that is the major architectural exception to the GPU consensus. Together they map the design space available to anyone building HPC at the high end in 2025–2030.
+Five machines define the present. Three of them — **Frontier**, **Aurora**, **El Capitan** — are American CPU-plus-GPU systems sitting on the post-2022 exascale plateau. One — **Fugaku** — is a Japanese ARM-with-wide-vectors machine that is the major architectural exception to the GPU consensus. The fifth — **JUPITER**, fully online in late 2025 — is the European Union's first exascale system and a deliberate statement of HPC sovereignty. Together they map the design space available to anyone building HPC at the high end in 2025–2030.
 
-This week is the four machines, what they share, what they don't, and what each is good at.
+This week is the five machines, what they share, what they don't, and what each is good at.
 
 ## Frontier (2022): the first exaflop
 
@@ -76,6 +76,20 @@ For the workloads that Japanese national institutions actually run — climate m
 
 The architectural success of Fugaku revives a question every HPC architect re-asks: **does the workload genuinely need the per-flop throughput of GPUs, or is it bandwidth-bound, in which case a wide-SIMD CPU with HBM is sufficient?** For climate, weather, and a chunk of CFD: bandwidth-bound. For dense linear algebra and AI training: throughput-bound. Different workloads, different answers.
 
+## JUPITER (2025): Europe's first exascale
+
+- **Site**: Forschungszentrum Jülich (Jülich Supercomputing Centre), Germany.
+- **Vendor**: Eviden (Atos) on the BullSequana XH3000 platform; NVIDIA silicon for the primary "Booster" module.
+- **Compute**: ~24,000 NVIDIA Grace Hopper GH200 superchips in the Booster module — Grace ARM CPU and Hopper GPU in a single NVLink-C2C-coherent package, sharing memory. A separate "Cluster" module uses SiPearl Rhea1 ARM CPUs for memory-bandwidth-bound workloads.
+- **Total**: 1.000 EFLOPS HPL Rmax (November 2025 Top500 — the cleanest exascale number ever recorded).
+- **Interconnect**: NVIDIA Quantum-2 InfiniBand NDR (400 Gb/s per port).
+- **Power**: ~18 MW. Direct warm-water cooling.
+- **Sponsor**: EuroHPC Joint Undertaking, ~€500M procurement.
+
+*Sources: Forschungszentrum Jülich JUPITER documentation (fz-juelich.de/jupiter); EuroHPC JU announcement materials; Top500 November 2025 list for the 1.000 EFLOPS HPL Rmax.*
+
+JUPITER matters beyond the FLOPS number. It is the architectural concretization of a policy bet that European HPC must not depend permanently on American procurements. The Cluster module specifically uses SiPearl's Rhea1 chips — European-designed ARM processors — for the bandwidth-bound tier, part of a longer European Processor Initiative trajectory toward European silicon. The Booster module uses NVIDIA GH200s because no European GPU vendor exists yet; the gap is acknowledged. If you wanted a single image of how geopolitics shapes HPC architecture in 2026: it is the JUPITER procurement, where the *application FLOPS* came from Santa Clara and the *strategic positioning* came from Brussels.
+
 ### What SVE code looks like
 
 SVE's signature design choice is **vector-length agnosticism**: the hardware vector width is *not encoded in the program*. The same binary runs efficiently on chips with 128-bit, 256-bit, 512-bit, or wider vectors. The programmer writes a loop with a predicate that masks off lanes past the array end:
@@ -97,6 +111,26 @@ void daxpy_sve(size_t n, double a, const double *x, double *y) {
 There is no `8` or `16` in the loop. `svcntd()` returns the runtime double count, `svwhilelt_b64` builds the per-lane mask, and every operation is *predicated* on that mask. On an A64FX core (512-bit), each iteration processes 8 doubles; on a future 1024-bit Arm chip the same binary processes 16. *The Cray-1's strip-mining wrapper has been moved inside the ISA.*
 
 This is the architectural strength of Fugaku: SVE code compiled once will run efficiently on every future Arm HPC chip without recompilation, because the program never asserted a width. Stephens et al. (2017) describes the design rationale; the worked example above is in the report's "Further reading."
+
+## HPL-MxP and the AI/HPC convergence
+
+The Top500's headline metric is **HPL** — High-Performance LINPACK — solving a dense linear system in IEEE FP64. It is the benchmark on which every machine above ranks itself. It is also, increasingly, *not what these machines actually spend their time running.*
+
+The November 2024 Top500 added a companion list: **HPL-MxP** (Mixed Precision), which permits the solver to do most of its computational work in low precision (FP16, BF16, or FP8) and only refine to FP64 accuracy at the end. The relevant numbers from late 2025:
+
+| System | HPL FP64 | HPL-MxP | Ratio |
+|---|---|---|---|
+| El Capitan | 1.742 EFLOPS | 16.7 EFLOPS | ~10× |
+| Aurora | 1.012 EFLOPS | 11.6 EFLOPS | ~11× |
+| Frontier | 1.353 EFLOPS | 11.4 EFLOPS | ~8× |
+
+The ratio reveals the underlying architectural truth. Modern HPC accelerators have a *vastly* larger budget for low-precision matrix arithmetic than for FP64 — NVIDIA H100 does ~67 TFLOPS FP64 and ~1,979 TFLOPS FP16 on tensor cores (with sparsity), a nearly 30× gap. That gap exists because **AI training is now the primary workload these chips are designed for.** FP64 is the legacy HPC-compatibility ceiling; FP16/BF16/FP8 is what the silicon is *for*.
+
+This has reshaped HPC procurement. The DOE labs explicitly committed to dual-use systems with Sierra/Summit (2018), making stockpile-stewardship simulations *and* AI/ML training first-class workloads. By Frontier/El Capitan (2022/2024), the AI-training capability is openly part of the procurement justification; LLNL's El Capitan runs both weapons-physics simulations and generative-AI work on classified datasets. By 2025, a substantial fraction of leadership-class compute hours go to AI training rather than to traditional simulation.
+
+The architectural pressure runs both ways. AI workloads want low precision, dense matmul, and very fast NVLink-style intra-pod fabrics. Climate codes want high precision, sparse irregular access, and high inter-node bandwidth. The exascale systems are *negotiated compromises* between these two workload families. Each generation, the AI side wins more of the budget, because that is where the volume is. If FP64 becomes a niche feature on AI-first chips — and there are several plausible trajectories where that happens by 2030 — the lineage from Cray-1 to El Capitan will need to be re-evaluated. The vector idea will still be there; the precision floor under it will have moved.
+
+*Sources for the table: Top500/HPL-MxP list, June and November 2025 editions (top500.org/lists/hpcg and the linked MxP rankings); ORNL, ANL, and LLNL system briefings for the per-machine MxP debut numbers.*
 
 ## What's the "vector processing as a mainstream capability" picture, then?
 

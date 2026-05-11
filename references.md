@@ -63,6 +63,9 @@ Annotated reading list, organized roughly by chapter. Items marked **★** are p
 - Steele, G.L. & Hillis, W.D. (1986). "Connection Machine Lisp". *Proc. LFP '86*.
 - Thinking Machines Corp. (1987). *Connection Machine Model CM-2 Technical Summary*. Primary source for CM-2 memory and FPU organization.
 - Thinking Machines Corp. (1991). *Programming the Connection Machine in C\* and CM-Fortran*. Manuals on archive.org.
+- High Performance Fortran Forum (1993, 1997). *High Performance Fortran Language Specification*, versions 1.0 and 2.0. crpc.rice.edu/HPFF/. The standard.
+- Kennedy, K., Koelbel, C. & Zima, H. (2007). "The rise and fall of High Performance Fortran: An historical object lesson". *Proc. HOPL III*. The retrospective by three principals in the HPF Forum; required reading on why HPF failed.
+- Chamberlain, B.L., Callahan, D. & Zima, H.P. (2007). "Parallel programmability and the Chapel language". *Int'l J. HPC Applications* 21(3):291–312. The Chapel paper; Chapel is the most direct surviving HPF descendant.
 
 ## Week 8 — MIMD MPP
 
@@ -123,6 +126,8 @@ Annotated reading list, organized roughly by chapter. Items marked **★** are p
 - Owens, J.D. et al. (2007). "A survey of general-purpose computation on graphics hardware". *Computer Graphics Forum* 26(1):80–113.
 - ★ NVIDIA, *CUDA Programming Guide*, current. docs.nvidia.com/cuda/.
 - NVIDIA H100 and Blackwell product briefs. Use for FP64, HBM capacity, and current GPU spec claims.
+- Yang, X. et al. (2011). "MilkyWay-2 (and TianHe-1A) supercomputer: A technical perspective". Documents the design and Top500 #1 history of NUDT's GPU-accelerated systems.
+- Vazhkudai, S.S. et al. (2018). "The design, deployment, and evaluation of the CORAL pre-exascale systems". *Proc. SC18*. The Summit (ORNL) and Sierra (LLNL) architecture paper.
 - Volkov, V. (2010). "Better performance at lower occupancy". *GTC '10*.
 - ★ Pharr, M. & Mark, W.R. (2012). "ISPC: A SPMD compiler for high-performance CPU programming". *InPar '12*. llvm.org/pubs/2012-05-13-InPar-ispc.html. The argument for SPMD-on-SIMD as the right model for CPU vectorization. Required reading for the Week 13 sidebar.
 - ISPC documentation, ispc.github.io. The compiler is open source (BSD).
@@ -137,6 +142,12 @@ Annotated reading list, organized roughly by chapter. Items marked **★** are p
 - Garcia, K. et al. (2022). "El Capitan: An advanced architecture exascale system at LLNL". *Proc. SC22*.
 - RIKEN R-CCS, "About Fugaku". Current public system specifications.
 - LLNL Livermore Computing, *El Capitan* platform documentation (hpc.llnl.gov/hardware/compute-platforms/el-capitan). Primary public source for the as-deployed node count and on-site configuration.
+- Forschungszentrum Jülich, *JUPITER* platform documentation (fz-juelich.de/jupiter). Primary public source for the EuroHPC JU exascale system: Booster (NVIDIA GH200) and Cluster (SiPearl Rhea1) module configurations.
+- EuroHPC Joint Undertaking, *EuroHPC supercomputer announcements* (eurohpc-ju.europa.eu). Procurement and policy framing for JUPITER, LUMI, Leonardo, MareNostrum 5.
+- Dongarra, J. & Luszczek, P. (2024–). *HPL-MxP Mixed-Precision Benchmark*. icl.utk.edu/hpl-mxp/. The mixed-precision LINPACK companion benchmark; rationale and current rankings.
+- *Top500 HPL-MxP list*, top500.org. The mixed-precision ranking that, alongside HPCG, bounds the achievable performance of leadership-class machines.
+- Mudigere, D. et al. (2022). "Software-hardware co-design for fast and scalable training of deep learning recommendation models". *Proc. MLSys '22*. Representative of how hyperscaler AI clusters are documented in the literature, useful for framing the "is this a supercomputer?" question.
+- Cerebras Systems (2024). *CS-3 architecture white paper*. cerebras.ai. Wafer-scale-engine architecture reference for the "alternative supercomputers" discussion.
 - Top500 and HPCG current lists, plus the Top500 archive (top500.org/lists). Use dated list entries for Frontier, Aurora, El Capitan, and Fugaku rankings; these values change twice per year and the archive preserves every June/November list since 1993.
 - ECP Software Technology Capability Assessment Reports (multi-year). exascaleproject.org.
 

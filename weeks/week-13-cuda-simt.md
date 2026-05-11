@@ -77,7 +77,7 @@ Three reasons:
 
 1. **Programming model fit the workload.** Image, video, signal-processing, neural network workloads are mostly per-pixel-or-per-element computation. Per-thread programming with implicit warp aggregation matches that mental model exactly.
 2. **The hardware was already being built at scale for graphics.** NVIDIA was selling tens of millions of GPUs to gamers; the per-unit cost of an accelerator chip was a small fraction of what custom HPC silicon cost. The volume economics that killed bespoke vector machines (Week 6) now favored GPUs.
-3. **Early DOE commitment.** Roadrunner (LANL, 2008) was the first hybrid CPU+accelerator petaflop machine, using IBM Cell BE accelerators. Cell didn't last, but the *pattern* — fat host nodes with PCIe accelerators, application split into host code and accelerator code — became the template. Titan at Oak Ridge (2012) was the first GPU-accelerated #1 system, using NVIDIA Kepler K20s.
+3. **Early DOE / Top500 commitment.** Roadrunner (LANL, 2008) was the first hybrid CPU+accelerator petaflop machine, using IBM Cell BE accelerators. Cell didn't last, but the *pattern* — fat host nodes with PCIe accelerators, application split into host code and accelerator code — became the template. **Tianhe-1A** (NUDT, China, 2010) was the first GPU-accelerated Top500 #1, using NVIDIA Tesla M2050s — the moment GPU acceleration crossed from research project to leadership-class architecture. **Titan** (ORNL, 2012) was the first US GPU-accelerated #1, using NVIDIA Kepler K20Xs. **Summit** (ORNL, 2018), IBM POWER9 + NVIDIA Volta V100, held #1 from June 2018 to June 2020. By Summit, GPU acceleration was no longer a bet; it was the default.
 
 ## The GPU generation roadmap
 

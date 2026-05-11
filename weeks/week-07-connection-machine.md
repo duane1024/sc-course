@@ -103,6 +103,33 @@ Thinking Machines filed for Chapter 11 in **August 1994**.
 
 If you have ever written `numpy.where(a > 0, b, c)` instead of a loop with an `if` statement — you are writing CM Fortran, with sixty-four-million-times-larger data sizes and sixty-four-million-times-faster hardware. The continuity is direct.
 
+## Coda: HPF, and what didn't survive
+
+If the Connection Machine taught the lesson that data-parallel array operations belonged in the language, the obvious next move was: *standardize that, take it cross-vendor, and make it work on distributed-memory machines too*. The result was **High Performance Fortran** (HPF), drafted by an industry-academic forum from 1991 to 1993 and shipped by Cray, IBM, Intel, HP, DEC, NEC, Fujitsu, Lahey, and PGI in commercial compilers by 1995.
+
+HPF took Fortran 90's array syntax — the syntax CM Fortran had just established — and added a small set of directives that told the compiler *how data was distributed across processors*. SAXPY in HPF:
+
+```fortran
+SUBROUTINE SAXPY_HPF(N, A, X, Y)
+  REAL :: A, X(N), Y(N)
+!HPF$ PROCESSORS PROCS(NUMBER_OF_PROCESSORS())
+!HPF$ DISTRIBUTE X(BLOCK) ONTO PROCS
+!HPF$ ALIGN Y(:) WITH X(:)
+  Y = A * X + Y
+END SUBROUTINE
+```
+
+The compiler was supposed to: split `X` into block-distributed chunks across processors, co-locate `Y` with `X`, generate the local computation, and generate whatever communication was needed for non-element-local operations. In principle, the programmer never wrote a send or receive.
+
+It failed. By 1998 every major vendor had quietly stopped investing in HPF. The reasons are worth understanding because they are the same reasons high-level parallel languages keep failing:
+
+1. **Compiler complexity exceeded the state of the art.** Inferring optimal communication patterns from declarative data-layout hints is, in general, undecidable. The compilers shipped, but their generated code was unpredictable and often slow.
+2. **Performance was non-portable in a *new* way.** With MPI, the programmer wrote communication explicitly — so it was at least *legible*. With HPF, two compilers from two vendors could turn the same source into wildly different communication schedules. HPC programmers couldn't tune what they couldn't see.
+3. **The standard had real gaps.** Irregular workloads (sparse matrices, unstructured grids, adaptive meshes) were awkward to express. The very kernels that needed parallelism most were the ones HPF couldn't handle cleanly.
+4. **MPI was already winning the same problem.** By 1994 the national labs had MPI codes that ran; they were not going to rewrite them for a compiler with bugs.
+
+The HPF ambition — *declarative data layout, the compiler does the work* — keeps coming back. **Chapel** (Cray, 2009 onward), **X10** (IBM), **Fortress** (Sun, canceled), **Coarray Fortran** (folded into Fortran 2008), **UPC**, **Julia's distributed arrays**, and arguably **JAX/XLA**'s sharding annotations for ML are all spiritual descendants. None has displaced MPI for production HPC. The pattern is durable: declarative parallelism is elegant; predictable performance wins customers.
+
 ## Lab — `numpy` as a Connection Machine emulator
 
 In `labs/07-data-parallel/`, you implement Conway's Game of Life and a simple cellular automaton three ways:

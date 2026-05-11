@@ -80,3 +80,17 @@ This course is designed to be runnable on a single laptop. Some labs benefit fro
 - **SVE-related discussion (14–16)**: actual A64FX or Graviton3 hardware is available through AWS Hpc7g instances, or you can use Arm Instruction Emulator / QEMU under software emulation.
 
 Don't let hardware access become the bottleneck. Methodology and analysis carry more pedagogical weight than peak FLOPS.
+
+### Free educational allocations on real HPC systems
+
+For final projects that need real cluster scale, several US and European programs grant free or low-friction educational allocations:
+
+- **NSF ACCESS** (access-ci.org) — the successor to XSEDE. The "Explore ACCESS" tier provides immediate access for small projects; "Discover" and "Accelerate" for larger needs. Multi-site: TACC, SDSC, PSC, NCSA, Purdue, others. The lowest-friction path to real cluster time for US-based students and researchers.
+- **OLCF Director's Discretion** (olcf.ornl.gov) — Frontier and Andes access for projects with a clear scientific or training case. Application is a short proposal.
+- **ALCF Director's Discretion** (alcf.anl.gov) — Polaris, Aurora, and AI Testbed access on similar terms.
+- **LUMI** (lumi-supercomputer.eu) — the EuroHPC pre-exascale system in Finland. Allocations through LUMI Consortium member countries; small "extreme scale" allocations are available to EU researchers via EuroHPC.
+- **EuroHPC JUPITER** — once fully production, will offer benchmark and development access under the EuroHPC JU's standard allocation processes.
+- **Google Colab** (colab.research.google.com) — free-tier T4 GPU, paid tier for A100/L4. The lowest-friction GPU access anywhere.
+- **AWS HPC educate** credits and **Azure for Research** — academic credit programs for cloud HPC, useful for the Beowulf-style labs and for ParallelCluster work.
+
+Application processes vary from "submit a one-page form" (Colab, ACCESS Explore) to "write a five-page proposal with a science case" (OLCF DD, LUMI extreme scale). Plan ahead. Allocations on the real machines are competitive and worth practicing for, even if you don't end up using them — the proposal-writing process is itself a useful HPC skill.

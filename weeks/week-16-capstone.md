@@ -221,6 +221,21 @@ A 1,500–2,500 word essay with these sections:
 
 If you're auditing this course online, no one will grade you. The point of the essay is to make the synthesis explicit to yourself. If you want feedback, post your essay as a discussion in the course repo's GitHub Discussions, link your code, and the maintainers (and other students) will respond.
 
+## The contested definition of "supercomputer"
+
+In 1976, the word was unambiguous: a supercomputer was the machine at LANL. Singular, identifiable, paid for by the federal government, FORTRAN-programmed, FP64. The question "is *that* a supercomputer?" did not arise.
+
+In 2026 the word is genuinely contested, and the answer depends on what you measure:
+
+- **By HPL FP64 Rmax**: the Top500 list. El Capitan, Frontier, Aurora, JUPITER, Fugaku, Eagle (Microsoft), LUMI, Leonardo, MareNostrum 5, Tuolumne. A 30-PFLOPS floor for the top 10. This is the *traditional* definition.
+- **By delivered FP16 throughput**: hyperscaler AI-training clusters. Microsoft Eagle (publicly listed), Meta Research SuperCluster, xAI Colossus (~100,000+ H100s), the Anthropic and OpenAI training pods, Google TPU v5p and v6 superpods. Most of these exceed exascale in FP16 but do not submit HPL and are not on Top500.
+- **By novelty of substrate**: Cerebras CS-3 wafer-scale (one chip, 900,000 cores, exascale-class on specific workloads). Tenstorrent Grayskull. Groq LPU. Graphcore Bow. None resemble a traditional supercomputer; some out-perform the Top500 on the workloads they were designed for.
+- **By organizational shape**: shared, programmable, FP64-capable, scientific-infrastructure-shaped, run as multi-tenant capacity by a national lab or university consortium. This is the *practitioner's* working definition. Microsoft Eagle qualifies (it submits HPL, accepts external workloads under contract); xAI Colossus does not, even though Colossus is plausibly bigger.
+
+These definitions are diverging fast. The pre-2020 consensus that "the Top500 measures the world's most powerful computers" no longer holds — the list now measures the world's most powerful computers *that submit to a particular benchmark, at a particular precision, under a particular organizational form*. AI-training clusters built by single companies are plausibly bigger; they are not run as scientific infrastructure and they do not submit.
+
+When you write the final essay, this is a *real* question to take a position on: what should "supercomputer" mean in 2026? Defend a definition with at least three architectural specifics from the course, and explain which currently-existing machines your definition includes and excludes. There is no wrong answer here — but there are weak ones, and the weakest ones avoid the question.
+
 ## Going further: capstone variants
 
 SAXPY-across-eras is the minimum-viable capstone — it isolates the *programming-model* dimension while keeping the kernel trivial. If you want a stronger project, swap in a more interesting kernel and keep the cross-era framing. Some directions that work:
