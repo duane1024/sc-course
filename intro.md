@@ -1,4 +1,6 @@
-# Introduction
+# From Cray-1 to Frontier: A working engineer's history of supercomputer architecture
+
+## Introduction
 
 ```{figure} images/cray1-1976-lanl.png
 :alt: A Cray-1 supercomputer installed at Los Alamos National Laboratory, 1976
