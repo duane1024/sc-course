@@ -18,7 +18,7 @@ He meant: simple, regular, fast logic, surrounded by I/O processors that kept th
 
 ## The CDC 6600 (1964)
 
-```{figure} images/cdc-6600.jpg
+```{figure} ../images/cdc-6600.jpg
 :alt: CDC 6600 operator console and quadrant, 1964
 :align: right
 :width: 320px
