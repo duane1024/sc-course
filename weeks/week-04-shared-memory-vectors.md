@@ -135,7 +135,6 @@ In `labs/04-openmp/`, you write a five-point stencil three ways: scalar serial, 
 
 ## Further reading
 
-- Chen, S.S. (1984). "Large-scale and high-speed multiprocessor system for scientific applications: Cray X-MP series". In Hwang, *Supercomputers: Design and Applications*. Steve Chen's own description of the X-MP.
-- Cray Research (1989). *Multitasking Programmer's Manual*, publication SR-0222.
-- Bailey, David H. et al. (1991). "The NAS Parallel Benchmarks". *International Journal of Supercomputer Applications*. The benchmark suite that defined "fair comparison" for this generation.
-- August, David, ed. *History of HPC*. Several chapters on the X-MP / Y-MP era.
+- Chen, S.S. (1984). "Large-scale and high-speed multiprocessor system for scientific applications: Cray X-MP series". In Hwang, [*Supercomputers: Design and Applications*](https://archive.org/details/tutorialsupercom0000unse/). Steve Chen's own description of the X-MP.
+- Cray Research (1989). [*Multitasking Programmer's Reference Manual*](https://bitsavers.org/pdf/cray/CRAY_X-MP/SR-0222D_Cray_X-MP_Mulitasking_Programmers_Reference_Jul87.pdf), publication SR-0222.
+- Bailey, David H. et al. (1991). "The NAS Parallel Benchmarks". *International Journal of Supercomputer Applications*. The benchmark suite that defined "fair comparison" for this generation.  See https://www.nas.nasa.gov/software/npb.html for recent documentation.

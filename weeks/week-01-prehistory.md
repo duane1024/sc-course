@@ -18,6 +18,14 @@ He meant: simple, regular, fast logic, surrounded by I/O processors that kept th
 
 ## The CDC 6600 (1964)
 
+```{figure} images/cdc-6600.jpg
+:alt: CDC 6600 operator console and quadrant, 1964
+:align: right
+:width: 320px
+
+CDC 6600 operator console and quadrant
+```
+
 - **Clock**: 10 MHz (100 ns cycle)
 - **Word**: 60 bits
 - **Memory**: 128 kilowords core, 1 µs cycle, ten-way interleaved banks
@@ -74,5 +82,5 @@ In `labs/01-scoreboard/`, you'll find a Python skeleton that simulates a simplif
 
 - Thornton, J.E., [*Design of a Computer: The Control Data 6600*, 1970](https://archive.computerhistory.org/resources/text/CDC/cdc.6600.thornton.design_of_a_computer_the_control_data_6600.1970.102630394.pdf).
 - Hennessy & Patterson, [*Computer Architecture: A Quantitative Approach*](https://shop.elsevier.com/books/computer-architecture/hennessy/978-0-443-15406-5), Appendix C — has the canonical scoreboarding example.
-- Watson memo (1963): widely reprinted, e.g., in Bell, Mudge & McNamara, [*Computer Engineering: A DEC View of Hardware Systems Design*](https://archive.org/details/computerengineer00bell).
+- [Watson memo (1963)](https://www.computerhistory.org/revolution/supercomputers/10/33/62): widely reprinted, e.g., in Bell, Mudge & McNamara, [*Computer Engineering: A DEC View of Hardware Systems Design*](https://archive.org/details/computerengineer00bell).
 - Murray, Charles J. (1997). [*The Supermen: The Story of Seymour Cray and the Technical Wizards Behind the Supercomputer*](https://archive.org/details/supermenstory00murr). The standard popular biography.

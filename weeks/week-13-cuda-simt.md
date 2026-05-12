@@ -165,9 +165,9 @@ The provided kernel is deliberately just SAXPY so the memory-bandwidth story is 
 
 ## Further reading
 
-- Lindholm, E. et al. (2008). "NVIDIA Tesla: A unified graphics and computing architecture". *IEEE Micro*. The G80 paper.
-- Nickolls, J. & Dally, W. (2010). "The GPU computing era". *IEEE Micro*.
-- Owens, J.D. et al. (2007). "A survey of general-purpose computation on graphics hardware". *Computer Graphics Forum*. Pre-CUDA GPGPU.
-- The CUDA Programming Guide (current version on docs.nvidia.com). Required reference.
-- Volkov, V. (2010). "Better performance at lower occupancy". *GTC*. Influential on how to think about GPU performance models.
+- Lindholm, E. et al. (2008). ["NVIDIA Tesla: A unified graphics and computing architecture"](https://ieeexplore.ieee.org/document/4523358). *IEEE Micro*. The G80 paper.
+- Nickolls, J. & Dally, W. (2010). ["The GPU computing era"](https://ieeexplore.ieee.org/document/5446251). *IEEE Micro*.
+- Owens, J.D. et al. (2007). ["A survey of general-purpose computation on graphics hardware"](https://research.nvidia.com/sites/default/files/pubs/2005-08_A-Survey-of/ASurveyofGeneralPurposeComputationonGraphicsHardware.pdf). *Computer Graphics Forum*. Pre-CUDA GPGPU.
+- [The CUDA Programming Guide](https://docs.nvidia.com/cuda/cuda-programming-guide/) (current version on docs.nvidia.com). Required reference.
+- Volkov, V. (2010). ["Better performance at lower occupancy"](https://www.nvidia.com/content/gtc-2010/pdfs/2238_gtc2010.pdf). *GTC*. Influential on how to think about GPU performance models.
 - For SIMT-vs-SIMD intellectual history: Hennessy & Patterson, 6th ed., chapter 4.

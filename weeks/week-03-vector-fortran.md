@@ -198,7 +198,7 @@ You'll see the compiler succeeding, failing, and asking for help. The point: the
 
 ## Further reading
 
-- Allen, J.R. & Kennedy, K. (1987). "Automatic translation of FORTRAN programs to vector form". *ACM TOPLAS*. The canonical paper on what CFT-class compilers do.
-- Padua, D.A. & Wolfe, M.J. (1986). "Advanced compiler optimizations for supercomputers". *CACM*. Wolfe later wrote the textbook *High Performance Compilers for Parallel Computing*; both are essential.
-- Cray Research, *CFT Reference Manual*, publication SR-0009. On bitsavers.
-- Modern counterpart: Maleki, Saeed et al. (2011). "An evaluation of vectorizing compilers". *PACT*. Comparison of GCC, ICC, IBM XL on a 151-loop benchmark suite — sobering reading.
+- Allen, J.R. & Kennedy, K. (1987). ["Automatic translation of FORTRAN programs to vector form"](https://dl.acm.org/doi/10.1145/29873.29875). *ACM TOPLAS*. The canonical paper on what CFT-class compilers do.
+- Padua, D.A. & Wolfe, M.J. (1986). ["Advanced compiler optimizations for supercomputers"](https://dl.acm.org/doi/abs/10.1145/7902.7904). *CACM*. Wolfe later wrote the textbook [*High Performance Compilers for Parallel Computing*](https://archive.org/details/highperformancec0000wolf); both are essential.
+- Cray Research, [*CFT Reference Manual*](https://bitsavers.org/pdf/cray/CFT/SR-0009J_CFT_Reference_Dec84.pdf), publication SR-0009.
+- Modern counterpart: Maleki, Saeed et al. (2011). ["An evaluation of vectorizing compilers"](https://ieeexplore.ieee.org/document/6113845). *PACT*. Comparison of GCC, ICC, IBM XL on a 151-loop benchmark suite — sobering reading.
