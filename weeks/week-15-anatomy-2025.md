@@ -184,9 +184,8 @@ You submit a multi-node MPI job to this miniature, watch it scheduled, watch it 
 
 ## Further reading
 
-- ORNL (2022). *Frontier System Architecture*. Public technical reports on olcf.ornl.gov/frontier.
-- HPE (2021). *HPE Slingshot Architecture White Paper*. Specification for the dragonfly interconnect.
-- Garcia, K. et al. (2022). "El Capitan: An advanced architecture exascale system at LLNL". *Proc. SC22*.
+- ORNL (2022). *Frontier System Architecture*. Public technical reports on [olcf.ornl.gov/frontier](https://www.olcf.ornl.gov/frontier/).
+- HPE (2021). [*HPE Slingshot Architecture White Paper*](https://www.hpe.com/psnow/doc/a50002368enw.pdf). Specification for the dragonfly interconnect.
 - Schwan, P. (2003). "Lustre: Building a file system for 1000-node clusters". *Linux Symposium*. The Lustre design paper, still relevant.
 - Yoo, A.B. et al. (2003). "SLURM: Simple Linux Utility for Resource Management". *JSSPP '03*.
-- For modern operations and lifecycle: ECP final report (Argonne, 2023) and the OLCF/ALCF/NERSC user documentation (free online).
+- For modern operations and lifecycle: [ECP final report](https://www.exascaleproject.org/) (Argonne, 2023) and the OLCF/ALCF/NERSC user documentation (free online).

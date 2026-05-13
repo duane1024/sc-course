@@ -2,7 +2,7 @@
 
 ## Where we are in 2026
 
-Open the assembly listing for any modern numerical kernel — a SAXPY loop compiled with `clang -O3` on an Apple M3, a CUDA kernel running on an H100, a chunk of NumPy's BLAS path. You will see the same architectural concept: a single instruction operating on a register that holds many values at once, fed by a memory subsystem deliberately designed to keep that register full.
+Open the assembly listing for any modern numerical kernel — a SAXPY (Single-Precision A·X Plus Y) loop compiled with `clang -O3` on an Apple M3, a CUDA kernel running on an H100, a chunk of NumPy's BLAS path. You will see the same architectural concept: a single instruction operating on a register that holds many values at once, fed by a memory subsystem deliberately designed to keep that register full.
 
 The Cray-1 did not invent vector processing, but it made register-to-register vector execution the dominant commercial form.
 
@@ -61,7 +61,7 @@ The Cray-1 had no virtual memory, no memory protection, no caches (vector regist
 
 When asked years later about the C-shape, Cray said: "The bookcases worked out the right shape, and we built around them." That was probably a joke. Probably.
 
-## What the code looked like — CAL
+## What the code looked like — Cray Assembly Language
 
 CAL is the Cray Assembly Language. Here is SAXPY (`y = a*x + y`) for vectors of 64 elements, register-to-register:
 
@@ -111,3 +111,4 @@ In `labs/02-cal-listing/`, you'll find an annotated CAL listing for a 1D stencil
 - [*Cray-1 Computer System Hardware Reference Manual*](https://bitsavers.org/pdf/cray/CRAY-1/2240004C_CRAY-1_Hardware_Reference_Nov77.pdf), publication 2240004.
 - Murray, Charles J. (1997). [*The Supermen: The Story of Seymour Cray and the Technical Wizards Behind the Supercomputer*](https://archive.org/details/supermenstory00murr), chapters 6–8.
 - Hennessy & Patterson, [*Computer Architecture: A Quantitative Approach*](https://shop.elsevier.com/books/computer-architecture/hennessy/978-0-443-15406-5), Appendix G (Vector Processors). Cray-1 and CDC STAR-100 are the worked examples.
+- Six Ways to SAXPY (NVIDIA Technical Blog) - https://developer.nvidia.com/blog/six-ways-saxpy/

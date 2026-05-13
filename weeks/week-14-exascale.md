@@ -50,7 +50,7 @@ Aurora was originally announced in 2015 to use Intel Xeon Phi accelerators and t
 - **Power**: ~30 MW. Roughly 60 GFLOPS/W on HPL in current public list results, ahead of Frontier on the same metric.
 - **Cooling**: direct liquid cooling.
 
-*Sources for El Capitan specifications: Garcia et al. (2022), "El Capitan: An advanced architecture exascale system at LLNL" (SC22), for the planned MI300A node design; LLNL Livermore Computing El Capitan platform pages (hpc.llnl.gov) for the as-deployed node count; Top500 November 2024 list for the debut 1.742 EFLOPS HPL Rmax; Top500 November 2025 list for the updated ~1.81 EFLOPS figure.*
+*Sources for El Capitan specifications: LLNL Livermore Computing El Capitan platform pages (hpc.llnl.gov) for node design and as-deployed node count; Top500 November 2024 list for the debut 1.742 EFLOPS HPL Rmax; Top500 November 2025 list for the updated ~1.81 EFLOPS figure.*
 
 The architectural innovation in El Capitan is the **APU**. The MI300A integrates CPU and GPU dies on the same package, sharing a coherent address space and HBM stacks. There is no PCIe between the CPU and GPU on the same package — they share memory at memory-bus speed. This eliminates a huge category of CPU-GPU data-movement headaches that have plagued every accelerated HPC system since Roadrunner.
 
@@ -177,9 +177,9 @@ You won't run a job on Frontier from your laptop. But you'll know what someone r
 
 ## Further reading
 
-- Atchley, S. et al. (2023). "Frontier: Exploring exascale". *Proc. SC23*.
+- Atchley, S. et al. (2023). ["Frontier: Exploring exascale"](https://doi.org/10.1145/3581784.3607089). *Proc. SC23*.
 - Sato, M. et al. (2020). "Co-design for A64FX manycore processor and Fugaku". *Proc. SC20*.
-- Argonne ALCF documentation (alcf.anl.gov/aurora) for Aurora architecture.
-- LLNL HPC Center documentation (hpc.llnl.gov/hardware/compute-platforms/el-capitan) for El Capitan architecture.
-- Top500 / HPCG list, current. Watch Fugaku's HPCG ranking versus its HPL ranking.
-- ECP Software Technology Capability Assessment Reports (ECP, multi-year). Honest discussion of how well real codes are running on exascale machines.
+- [Argonne ALCF documentation](https://www.alcf.anl.gov/aurora) for Aurora architecture.
+- [LLNL HPC Center documentation](https://hpc.llnl.gov/hardware/compute-platforms/el-capitan) for El Capitan architecture.
+- [Top500 / HPCG list](https://www.top500.org/lists/hpcg/), current. Watch Fugaku's HPCG ranking versus its HPL ranking.
+- [ECP Software Technology Capability Assessment Reports](https://www.exascaleproject.org/) (multi-year). Honest discussion of how well real codes are running on exascale machines.

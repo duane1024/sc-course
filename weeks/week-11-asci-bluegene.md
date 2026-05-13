@@ -30,7 +30,7 @@ The roster:
 
 **Sources for the table.** Peak figures are *Rpeak* from the Top500 list of the relevant June or November (whichever was closest to acceptance), except where noted. Per-machine primary citations:
 
-- **ASCI Red** (Sandia, 1997): Mattson & Henderson, "ASCI Red: Experiences and lessons learned" (SC97); Foster et al. (2005).
+- **ASCI Red** (Sandia, 1997): Mattson & Henderson, "ASCI Red: Experiences and lessons learned" (SC97).
 - **ASCI Blue Pacific** (LLNL, 1998): LLNL Computing user documentation; Top500 November 1998.
 - **ASCI Blue Mountain** (LANL, 1998): LANL ASCI program reports; Top500 November 1998.
 - **ASCI White** (LLNL, 2000): Top500 November 2000.
@@ -40,7 +40,7 @@ The roster:
 - **Roadrunner** (LANL, 2008): Barker, K. et al. (2008), "Entering the petaflop era: The architecture and performance of Roadrunner" (SC08); Top500 June 2008 for the 1.026 PFLOPS Rmax.
 - **Sequoia** (LLNL, 2012): IBM BG/Q architecture papers; Top500 June 2012.
 - **Sierra** (LLNL, 2018): IBM POWER9 + NVIDIA Volta system documentation; Top500 November 2018.
-- **El Capitan** (LLNL, 2024): Garcia et al. (2022), "El Capitan: An advanced architecture exascale system at LLNL" (SC22); Top500 November 2024 list for the debut figures, November 2025 list for updated HPL numbers.
+- **El Capitan** (LLNL, 2024): LLNL Livermore Computing El Capitan platform documentation; Top500 November 2024 list for the debut figures, November 2025 list for updated HPL numbers.
 
 The ASC roster reads as a cross-section of the architectural evolution we're tracking in this course. The labs paid for, helped design, and ran every major architectural shift: pure MIMD MPP (Red), big SMP node clusters (White, Purple), low-power MPP at extreme scale (BlueGene), the first heterogeneous-accelerated supercomputer (Roadrunner), GPU-accelerated nodes (Sierra), APU-integrated exascale (El Capitan).
 
@@ -123,8 +123,7 @@ You time them, then read your laptop's power draw (via `powermetrics` on macOS, 
 
 ## Further reading
 
-- Adiga, N.R. et al. (2002). "An overview of the BlueGene/L supercomputer". *Proc. SC02*. The IBM design overview.
+- Adiga, N.R. et al. (2002). ["An overview of the BlueGene/L supercomputer"](https://dl.acm.org/doi/10.5555/762761.762787). *Proc. SC02*. The IBM design overview.
 - Bhatele, A. et al. (2013). "Identifying the culprits behind network congestion". *Proc. SC13*. Real-world experience with BG/Q networks; teaches a lot about why interconnect matters.
-- Top500 lists 2004–2012, watching the Green500 emerge alongside.
-- Foster, I. et al. (2005). "ASCI Red: The first TFLOPS computer at Sandia". *IEEE Computer*. Includes the full history of the program through ASC Purple.
-- The DOE's "Exascale Computing Project" (ECP) reports, 2016 onward — the formal successor to ASCI/ASC.
+- [Top500 lists](https://www.top500.org/lists/top500/) 2004–2012, watching the [Green500](https://www.top500.org/lists/green500/) emerge alongside.
+- The DOE's [Exascale Computing Project (ECP)](https://www.exascaleproject.org/) reports, 2016 onward — the formal successor to ASCI/ASC.

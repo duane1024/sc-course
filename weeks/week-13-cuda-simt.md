@@ -170,4 +170,4 @@ The provided kernel is deliberately just SAXPY so the memory-bandwidth story is 
 - Owens, J.D. et al. (2007). ["A survey of general-purpose computation on graphics hardware"](https://research.nvidia.com/sites/default/files/pubs/2005-08_A-Survey-of/ASurveyofGeneralPurposeComputationonGraphicsHardware.pdf). *Computer Graphics Forum*. Pre-CUDA GPGPU.
 - [The CUDA Programming Guide](https://docs.nvidia.com/cuda/cuda-programming-guide/) (current version on docs.nvidia.com). Required reference.
 - Volkov, V. (2010). ["Better performance at lower occupancy"](https://www.nvidia.com/content/gtc-2010/pdfs/2238_gtc2010.pdf). *GTC*. Influential on how to think about GPU performance models.
-- For SIMT-vs-SIMD intellectual history: Hennessy & Patterson, 6th ed., chapter 4.
+- For SIMT-vs-SIMD intellectual history: Hennessy & Patterson, [*Computer Architecture: A Quantitative Approach*](https://shop.elsevier.com/books/computer-architecture/hennessy/978-0-443-15406-5), 6th ed., chapter 4.

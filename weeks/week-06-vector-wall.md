@@ -101,7 +101,7 @@ Then plot the trend the same way Eugene Brooks would have in 1989. The point: th
 ## Further reading
 
 - Brooks, E. (1989). "Attack of the killer micros". Lawrence Livermore National Laboratory. The original talk transcript is widely circulated as a memo; see also coverage in *HPCwire*'s 2009 retrospective.
-- Schneck, P. (1987). *Supercomputer Architecture*. Includes contemporary analysis of the Cyber 205, Cray X-MP, and ETA-10.
+- Schneck, P. (1987). [*Supercomputer Architecture*](https://doi.org/10.1007/978-1-4615-7957-1). Includes contemporary analysis of the Cyber 205, Cray X-MP, and ETA-10.
 - Wadsworth, A. (1996). "Cray Computer Corporation Chronology". Personal account by a former CCC engineer; widely referenced.
-- Markoff, J. (1996). "Seymour Cray, Computer Industry Pioneer And Father of Supercomputer, Dies at 71". *NYT*, October 6.
-- For the macro picture: Hennessy & Patterson, "The Quantitative Approach", chapter 1 ("Trends in Technology") in any edition since 1995, where the killer-micros argument is given quantitative form.
+- Markoff, J. (1996). ["Seymour Cray, Computer Industry Pioneer And Father of Supercomputer, Dies at 71"](https://pages.cs.wisc.edu/~bezenek/cray.html). *NYT*, October 6.
+- For the macro picture: Hennessy & Patterson, [*Computer Architecture: A Quantitative Approach*](https://shop.elsevier.com/books/computer-architecture/hennessy/978-0-443-15406-5), chapter 1 ("Trends in Technology") in any edition since 1995, where the killer-micros argument is given quantitative form.

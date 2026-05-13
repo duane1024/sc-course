@@ -10,7 +10,7 @@ This week is about how that idea took over.
 
 In summer 1994, **Thomas Sterling** (at NASA's Center of Excellence in Space Data and Information Sciences, NASA Goddard) and **Donald Becker** (in the same group, primarily a Linux kernel developer who wrote most of the early Ethernet drivers) had a problem: their group needed compute for satellite data processing, the budget was tiny, and there was no path to a Cray.
 
-So they bought 16 Intel DX4 (a 100 MHz 486) PCs, each with 16 MB of RAM, connected them with two stock 10 Mbps Ethernet networks (one for application traffic, one for I/O), put **Linux** on them, installed **PVM**, and called it Beowulf. ~$50,000 total. ~74 MFLOPS sustained on LINPACK. *Forty times slower per CPU* than the contemporary Cray Y-MP, but at 1/2,000 the cost. *Source: Sterling & Becker (1995), "How to Build a Beowulf," NASA Goddard Space Flight Center; Sterling et al. (1995), "BEOWULF: A parallel workstation for scientific computation," Proc. ICPP '95 — both report the same configuration, sustained LINPACK number, and price.*
+So they bought 16 Intel DX4 (a 100 MHz 486) PCs, each with 16 MB of RAM, connected them with two stock 10 Mbps Ethernet networks (one for application traffic, one for I/O), put **Linux** on them, installed **PVM**, and called it Beowulf. ~$50,000 total. ~74 MFLOPS sustained on LINPACK. *Forty times slower per CPU* than the contemporary Cray Y-MP, but at 1/2,000 the cost. *Source: Sterling et al. (1995), "BEOWULF: A parallel workstation for scientific computation," Proc. ICPP '95.*
 
 Three things made Beowulf interesting beyond the obvious cost win:
 
@@ -87,8 +87,7 @@ In `labs/10-mini-cluster/` you set up a tiny single-machine "cluster" using Dock
 
 ## Further reading
 
-- Sterling, T. & Becker, D. (1995). *How to Build a Beowulf*. Initial paper, Goddard Space Flight Center. Now widely available on archive.org.
-- Sterling, T., Becker, D., Savarese, D., Dorband, J., Ranawake, U. & Packer, C. (1995). "BEOWULF: A parallel workstation for scientific computation". *Proc. ICPP '95*. The peer-reviewed version.
-- Top500 lists 1995–2005, in sequence. Watch the "architecture" column flip.
-- Yoo, A. et al. (2003). "SLURM: Simple Linux Utility for Resource Management". *JSSPP '03*. The original Slurm paper.
-- Schwan, P. (2003). "Lustre: Building a file system for 1000-node clusters". *Linux Symposium*.
+- Sterling, T., Becker, D., Savarese, D., Dorband, J., Ranawake, U. & Packer, C. (1995). ["BEOWULF: A parallel workstation for scientific computation"](https://webhome.phy.duke.edu/~rgb/brahma/Resources/beowulf/papers/ICPP95/icpp95.html). *Proc. ICPP '95*.
+- [Top500 lists](https://www.top500.org/lists/top500/) 1995–2005, in sequence. Watch the "architecture" column flip.
+- Yoo, A. et al. (2003). ["SLURM: Simple Linux Utility for Resource Management"](https://doi.org/10.1007/10968987_3). *JSSPP '03*. The original Slurm paper.
+- Schwan, P. (2003). ["Lustre: Building a file system for 1000-node clusters"](https://www.kernel.org/doc/ols/2003/ols2003-pages-380-386.pdf). *Linux Symposium*.

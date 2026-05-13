@@ -148,8 +148,8 @@ Then you visualize the result. The point: the *programming idiom* the Connection
 
 ## Further reading
 
-- Hillis, W.D. (1985). *The Connection Machine*. MIT Press. Out of print but downloadable from Hillis's site. Required reading.
-- Hillis, W.D. & Steele, G.L. (1986). "Data parallel algorithms". *CACM*. The argument for the model.
-- Steele, G.L. & Hillis, W.D. (1986). "Connection Machine Lisp: Fine-grained parallel symbolic processing". *LFP'86*. Steele was Thinking Machines' compiler luminary.
-- *Programming the Connection Machine in C\* and CM-Fortran*. Thinking Machines documentation, on archive.org.
+- Hillis, W.D. (1985). [*The Connection Machine*](https://archive.org/details/connectionmachin00hill). MIT Press. Out of print but downloadable from Hillis's site. Required reading.
+- Hillis, W.D. & Steele, G.L. (1986). ["Data parallel algorithms"](https://doi.org/10.1145/7902.7903). *CACM*. The argument for the model.
+- Steele, G.L. & Hillis, W.D. (1986). ["Connection Machine Lisp: Fine-grained parallel symbolic processing"](https://doi.org/10.1145/319838.319870). *LFP'86*. Steele was Thinking Machines' compiler luminary.
+- [*Programming the Connection Machine in C\* and CM-Fortran*](https://archive.org/details/thnkingmachinesc01unse). Thinking Machines documentation.
 - Murray, *The Supermen*, chapter 16 — covers Cray's reaction to the Connection Machine.

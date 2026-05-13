@@ -192,7 +192,7 @@ Even on a laptop you'll see real scaling effects — and you'll see strong scali
 
 ## Further reading
 
-- Gropp, Lusk & Skjellum (2014). *Using MPI: Portable Parallel Programming with the Message-Passing Interface*, 3rd ed. The textbook.
-- The MPI Standard itself (mpi-forum.org). Free PDF. Treat it like a reference, not bedside reading.
-- Snir, M. et al. (1996). *MPI: The Complete Reference*. The MPI-1 era reference, useful for understanding why things ended up the way they did.
+- Gropp, Lusk & Skjellum (2014). [*Using MPI: Portable Parallel Programming with the Message-Passing Interface*](https://mitpress.mit.edu/9780262527392/using-mpi/), 3rd ed. The textbook.
+- [The MPI Standard](https://www.mpi-forum.org/docs/) itself. Free PDF. Treat it like a reference, not bedside reading.
+- Snir, M. et al. (1996). [*MPI: The Complete Reference*](https://mitpress.mit.edu/9780262691840/mpi-the-complete-reference-volume-1/). The MPI-1 era reference, useful for understanding why things ended up the way they did.
 - The MPI Forum minutes are public. The 1992–94 minutes are a fascinating record of how a successful standardization process actually negotiates trade-offs.

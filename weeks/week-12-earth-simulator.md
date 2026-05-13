@@ -99,5 +99,5 @@ You run both on your laptop and observe the ratio. Then we compare to the Top500
 - Habata, S., Yokokawa, M. & Kitawaki, S. (2003). "The Earth Simulator system". *NEC Research & Development*. The primary technical paper.
 - Yokokawa, M. et al. (2002). "Performance evaluation of the Earth Simulator". *Proc. SC02*. Application performance results.
 - Dongarra, J. (2002). "The Earth Simulator system: A wake-up call". A widely circulated commentary at the time of the announcement.
-- Lazowska, E. & Patterson, D. (2005). "Computing research: A looming crisis". *CACM*. Part of the post-ES policy argument.
-- Top500 / HPCG list (top500.org/lists/hpcg). Updated each year.
+- Lazowska, E. & Patterson, D. (2005). ["Computing research: A looming crisis"](https://doi.org/10.1145/1070873.1070881). *CACM*. Part of the post-ES policy argument.
+- [Top500 / HPCG list](https://www.top500.org/lists/hpcg/). Updated each year.

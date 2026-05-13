@@ -103,7 +103,7 @@ You'll see the fixed-overhead-per-call versus per-element-cost trade-off in acti
 
 ## Further reading
 
-- Watanabe, T. (1987). "Architecture and performance of the NEC SX-2". *IEEE Computer*. NEC's own description.
+- Watanabe, T. (1987). ["Architecture and performance of the NEC SX-2"](https://doi.org/10.1016/0167-8191(87)90021-4). *Parallel Computing* 5:247–255. NEC's own description.
 - Miura, K. & Uchida, K. (1983). "Fujitsu VP-100/200: Vector machines for scientific computation". *Proc. Supercomputing*.
-- Habata, S., Yokokawa, M. & Kitawaki, S. (2003). "The Earth Simulator system". *NEC Research & Development*.
-- Reed, D. & Dongarra, J. (2015). "Exascale computing and big data". *CACM*. Touches on the policy fallout from the Earth Simulator era.
+- Habata, S., Yokokawa, M. & Kitawaki, S. (2003). ["The Earth Simulator system"](https://www.eecg.toronto.edu/~amza/ece1747h/papers/earth-sim-nec.pdf). *NEC Research & Development*.
+- Reed, D. & Dongarra, J. (2015). ["Exascale computing and big data"](https://doi.org/10.1145/2699414). *CACM*. Touches on the policy fallout from the Earth Simulator era.

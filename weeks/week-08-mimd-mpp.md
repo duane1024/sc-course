@@ -95,7 +95,7 @@ The **Accelerated Strategic Computing Initiative** (ASCI) was the DOE's response
 - **Cost**: ~$55M. Vastly cheaper per FLOP than any vector machine.
 - Held Top500 #1 from 1997 through mid-2000.
 
-*Sources: Mattson & Henderson, "ASCI Red: experiences and lessons learned with a massively parallel teraFLOP supercomputer" (Intel/Sandia, SC97); Foster et al. (2005) for the program-level retrospective; Top500 lists June 1997 through November 2000 for the #1 reign and Rmax = 1.06 TFLOPS sustained.*
+*Sources: Mattson & Henderson, "ASCI Red: experiences and lessons learned with a massively parallel teraFLOP supercomputer" (Intel/Sandia, SC97); Top500 lists June 1997 through November 2000 for the #1 reign and Rmax = 1.06 TFLOPS sustained.*
 
 ASCI Red was the moment the American HPC establishment publicly committed to the MIMD MPP path. Every subsequent ASCI/ASC machine through ~2015 was the same template: enormous numbers of commodity CPUs, custom interconnect, partitioned OS, message-passing software stack.
 
@@ -138,9 +138,8 @@ In `labs/08-mpp-toy/`, you build a Python simulator of a 16-node 4×4 mesh MPP. 
 
 ## Further reading
 
-- Pierce, P. (1988). "The NX/2 Operating System". *Proc. Hypercube Concurrent Computers and Applications Conference*. NX was MPI's most direct precursor.
+- Pierce, P. (1988). ["The NX/2 Operating System"](https://doi.org/10.1145/62297.62341). *Proc. Hypercube Concurrent Computers and Applications Conference*. NX was MPI's most direct precursor.
 - Cray Research (1995). *Cray T3E Programming Environment*, publication SR-2017. Defines SHMEM and the T3E one-sided model.
 - Mattson, T.G. (1995). *Programming with the Intel Paragon*. Practical view of an MPP from the user's seat.
-- Geist, A. et al. (1994). *PVM: Parallel Virtual Machine*. MIT Press. Online.
-- Reed, D. (2003). "ASCI Red: A history". *HPCwire*.
-- Top500 lists from June 1993 through June 2000 — read them in sequence; the architectural shift is visible year over year.
+- Geist, A. et al. (1994). [*PVM: Parallel Virtual Machine*](https://www.netlib.org/pvm3/book/pvm-book.html). MIT Press.
+- [Top500 lists](https://www.top500.org/lists/top500/) from June 1993 through June 2000 — read them in sequence; the architectural shift is visible year over year.
