@@ -24,11 +24,13 @@ Around 80 Cray-1s were ever built. Most are in museums. One sits in the Computer
 
 ### 1. Vector registers
 
-Before the Cray-1, "vector" computers — like the **CDC STAR-100** (1974) and **Texas Instruments ASC** (1973) — operated on vectors **memory-to-memory**. You issued an instruction that said "add elements of array A starting at address α to array B starting at address β, store at γ, length N." The hardware streamed values through a pipelined adder. Conceptually clean. In practice, *terrible*, because every vector operation paid the full memory-access latency on its first element. Short vectors were dramatically slower than scalar code. Real scientific codes have lots of short vectors.
+Before the Cray-1, "vector" computers — like the [**CDC STAR-100**](https://link.springer.com/chapter/10.1007/978-1-4615-7957-1_5) (1974) and [**Texas Instruments ASC**](https://dl.acm.org/doi/10.1109/2.19823) (1973) — operated on vectors **memory-to-memory**. You issued an instruction that said "add elements of array A starting at address α to array B starting at address β, store at γ, length N." The hardware streamed values through a pipelined adder. Conceptually clean. In practice, *terrible*, because every vector operation paid the full memory-access latency on its first element. Short vectors were dramatically slower than scalar code. Real scientific codes have lots of short vectors.
 
 Cray's insight: keep a small number of vectors *resident in registers*, fast-cycle them through the functional units, and fill them from memory in advance. Every Cray vector operation is **register-to-register**. The startup cost of a vector instruction was still real — measured in several cycles depending on the functional unit — but it was small enough that short vectors became profitable. The Cray-1's break-even vector length was a handful of elements, not the dozens needed on memory-to-memory machines like the STAR-100.
 
 The eight vector registers (V0–V7) each held 64 elements of 64 bits each. That's 4 KB of vector register file, in 1976, in ECL.
+
+_ECL = Emitter-Coupled Logic — a family of bipolar transistor logic circuits known for very high switching speed (the transistors stay out of saturation, so they switch faster than TTL or CMOS of the era)._ ECL was fast but power-hungry and ran hot, which is why Cray-1 famously needed its Freon-cooled cooling system.
 
 ### 2. Vector chaining
 

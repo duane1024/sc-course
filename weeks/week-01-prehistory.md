@@ -2,7 +2,7 @@
 
 ## Where we are in 2026
 
-When you write a tight loop in C and the compiler unrolls it, schedules independent instructions onto different functional units, and reorders memory loads to hide latency — you are using techniques that were invented for, and first proven on, the **CDC 6600** in 1964. Every modern out-of-order CPU is a direct descendant. Most of the things we now call "the boring parts of computer architecture" started life as Seymour Cray trying to make one specific machine the fastest in the world.
+When you write a tight loop in C and the compiler unrolls it, schedules independent instructions onto different functional units, and reorders memory loads to hide latency — you are using techniques that were invented for, and first proven on, the [**CDC 6600**](https://www.cisl.ucar.edu/ncar-supercomputing-history/cdc6600) in 1964. Every modern out-of-order CPU is a direct descendant. Most of the things we now call "the boring parts of computer architecture" started life as Seymour Cray trying to make one specific machine the fastest in the world.
 
 This week we look at the machine that defined what "fastest" meant before vectors existed.
 
